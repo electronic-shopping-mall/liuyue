@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Kodinger">
+	<title>欢迎登录我爱我家后台管理系统！</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/my-login.css">
+	<link rel="Icon" href="images/icon.png" type="image/x-icon"/>
+</head>
+<body class="my-login-page">
+	<section class="h-100">
+		<div class="container h-100">
+			<div class="row justify-content-md-center h-100">
+				<div class="card-wrapper">
+					<div class="brand">
+						<img src="images/loginlogo.png">
+					</div>
+					<div class="card fat">
+						<div class="card-body">
+							<h4 class="card-title">请登录</h4>
+							<form method="POST">
+							 
+								<div class="form-group">
+									<label for="email">邮箱地址</label>
+
+									<input id="email" type="email" class="form-control" name="email" value="" required autofocus>
+								</div>
+
+								<div class="form-group">
+									<label for="password">密码
+										<a href="login-forgot.html" class="float-right">
+											忘记密码?
+										</a>
+									</label>
+									<input id="password" type="password" class="form-control" name="password" required data-eye>
+								</div>
+
+								<div class="form-group">
+									<label>
+										<input type="checkbox" name="remember"> 记住此账号
+									</label>
+								</div>
+
+								<div class="form-group no-margin">
+									<button type="submit" class="btn btn-primary btn-block">
+										<a href="index.html" class="loginbtn" >登录</a>
+									</button>
+								</div>
+								<div class="margin-top20 text-center">
+									还没有自己的账户？ <a href="login-register.html">立即注册</a>
+								</div>
+							</form>
+						</div>
+					</div>
+					<!--<div class="footer">
+						Copyright &copy; Your Company 2017 - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+					</div>-->
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/js/my-login.js"></script>
+</body>
+</html>
