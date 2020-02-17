@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>我爱我家后台管理系统</title>
+    <title>我爱我家后台管理系统-用户管理</title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,41 +18,40 @@
     <link rel="stylesheet" href="assets/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link href="assets/css/charts/chartist.min.css" rel="stylesheet">
-    <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet"></head>
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
     <link rel="Icon" href="images/icon.png" type="image/x-icon" />
+</head>
 <body>
     <!-- Left Panel -->
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="index.html"><i class="menu-icon fa fa-laptop"></i>主页展示</a>
+                    <li class="nav navbar-nav">
+                        <a href="index.html">
+                            <i class="menu-icon fa fa-laptop"></i>主页展示</a>
                     </li>
                     <li class="nav navbar-nav">
-                        <a href="tables-basic.html"> 
+                        <a href="tables-manager.html"> 
                             <i class="menu-icon fa fa-group"></i>管理员信息</a>
                     </li>
                     
-                    <li class="nav navbar-nav">
-                        <a href="tables-basic.html"> 
+                    <li class="active">
+                        <a href="tables-user.html"> 
                             <i class="menu-icon fa fa-user"></i>用户信息</a>
                     </li>
                     
                     <li class="nav navbar-nav">
-                        <a href="tables-data.html"> 
+                        <a href="tables-product.html"> 
                             <i class="menu-icon fa fa-shopping-cart"></i>商品信息管理</a>
                     </li>
                     
                     <li class="nav navbar-nav">
-                        <a href="tables-data.html"> 
+                        <a href="tables-sale.html"> 
                             <i class="menu-icon fa fa-jpy"></i>销售信息管理</a>
-                    </li>
-
-                    <li class="nav navbar-nav">
-                        <a href="charts-flot.html"> 
-                            <i class="menu-icon fa fa-bar-chart"></i>数据表</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -63,7 +62,9 @@
     <!-- Left Panel -->
 
     <!-- Right Panel -->
+
     <div id="right-panel" class="right-panel">
+
         <!-- Header-->
         <header id="header" class="header">
             <div class="top-left">
@@ -94,14 +95,6 @@
                                     <i class="fa fa-check"></i>
                                     <p>1号服务器过载。</p>
                                 </a>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-info"></i>
-                                    <p>2号服务器过载。</p>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-warning"></i>
-                                    <p>3号服务器过载。</p>
-                                </a>
                             </div>
                         </div>
 
@@ -112,14 +105,6 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="message">
                                 <p class="red">您有2条消息</p>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">李明</span>
-                                        <span class="time float-right">刚刚</span>
-                                        <p>你好，我想询问一下管理员信息。</p>
-                                    </div>
-                                </a>
                                 <a class="dropdown-item media" href="#">
                                     <span class="photo media-left"><img alt="avatar" src="images/avatar/2.jpg"></span>
                                     <div class="message media-body">
@@ -144,7 +129,7 @@
 
                             <a class="nav-link" href="#"><i class="fa fa -cog"></i>设置</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>退出登录</a>
+                            <a class="nav-link" href="login-login.html"><i class="fa fa-power -off"></i>退出登录</a>
                         </div>
                     </div>
 
@@ -152,62 +137,69 @@
             </div>
         </header>
         <!-- /#header -->
-        
-        <!-- Content -->
+
         <div class="content">
             <div class="animated fadeIn">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-3">饼图（未绘制）</h4>
-                                <div class="flot-container">
-                                    <div id="flot-pie" class="flot-pie-container"></div>
-                                </div>
+                            <div class="card-header">
+                                <strong class="card-title">管理员信息</strong>
                             </div>
-                        </div><!-- /# card -->
-                    </div><!-- /# column -->
-                     <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-3">折线图（未绘制）</h4>
-                                <div class="flot-container">
-                                    <div id="flotBar" style="width:100%;height:275px;"></div>
-                                </div>
-                            </div>
-                        </div><!-- /# card -->
-                    </div><!-- /# column -->                  
-                </div><!-- /# row -->
-            </div><!-- .animated -->
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">姓名</th>
+                                        <th scope="col">电子邮箱</th>
+                                        <th scope="col">行使权力</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>李明</td>
+                                        <td>1231513@163.com</td>
+                                        <td>超级管理员</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>韩梅梅</td>
+                                        <td>48948448@163.com</td>
+                                        <td>管理员</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>王红花</td>
+                                        <td>54987978@163.com</td>
+                                        <td>管理员</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.content -->
-        <div class="clearfix"></div>
-        <!-- Footer -->
-        <footer class="site-footer">
-        </footer>
-        <!-- /.site-footer -->
-    </div>
-    <!-- /#right-panel -->
+    </div><!-- .animated -->
+</div><!-- .content -->
 
-    <!-- Scripts -->
-    <!-- <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.matchHeight.min.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flot-charts@0.8.3/excanvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flot-charts@0.8.3/jquery.flot.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.pie.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.time.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.stack.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.resize.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.crosshair.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flot.curvedlines@1.1.1/curvedLines.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery.flot.tooltip@0.9.0/js/jquery.flot.tooltip.min.js"></script>
-    <script src="assets/js/init/flot-chart-init.js"></script> -->
-    <!--  Chart js-->
-    <!-- <script src="assets/js/lib/chart-js/Chart.bundle.js"></script>
-    <script src="assets/js/lib/flot-chart/jquery.flot.js"></script>
-    <script src="assets/js/lib/flot-chart/jquery.flot.spline.js"></script> -->
+<div class="clearfix"></div>
+
+<footer class="site-footer">
+   
+</footer>
+
+</div><!-- /#right-panel -->
+
+<!-- Right Panel -->
+
+<!-- Scripts -->
+<script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.matchHeight.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+
 </body>
 </html>

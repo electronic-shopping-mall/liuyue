@@ -6,13 +6,13 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>我爱我家后台管理系统</title>
+    <title>我爱我家后台管理系统-管理员管理</title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     
 
-    <link rel="stylesheet" href="assets/css/normalize.css">
+<link rel="stylesheet" href="assets/css/normalize.css">
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/font-awesome.min.css">
 <link rel="stylesheet" href="assets/css/themify-icons.css">
@@ -31,32 +31,28 @@
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="index.html"><i class="menu-icon fa fa-laptop"></i>主页展示</a>
-                    </li>
                     <li class="nav navbar-nav">
-                        <a href="tables-basic.html"> 
+                        <a href="index.html">
+                            <i class="menu-icon fa fa-laptop"></i>主页展示</a>
+                    </li>
+                    <li class="active">
+                        <a href="tables-manager.html"> 
                             <i class="menu-icon fa fa-group"></i>管理员信息</a>
                     </li>
                     
                     <li class="nav navbar-nav">
-                        <a href="tables-basic.html"> 
+                        <a href="tables-user.html"> 
                             <i class="menu-icon fa fa-user"></i>用户信息</a>
                     </li>
                     
                     <li class="nav navbar-nav">
-                        <a href="tables-data.html"> 
+                        <a href="tables-product.html"> 
                             <i class="menu-icon fa fa-shopping-cart"></i>商品信息管理</a>
                     </li>
                     
                     <li class="nav navbar-nav">
-                        <a href="tables-data.html"> 
+                        <a href="tables-sale.html"> 
                             <i class="menu-icon fa fa-jpy"></i>销售信息管理</a>
-                    </li>
-
-                    <li class="nav navbar-nav">
-                        <a href="charts-flot.html"> 
-                            <i class="menu-icon fa fa-bar-chart"></i>数据表</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -100,14 +96,6 @@
                                     <i class="fa fa-check"></i>
                                     <p>1号服务器过载。</p>
                                 </a>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-info"></i>
-                                    <p>2号服务器过载。</p>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-warning"></i>
-                                    <p>3号服务器过载。</p>
-                                </a>
                             </div>
                         </div>
 
@@ -118,14 +106,6 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="message">
                                 <p class="red">您有2条消息</p>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">李明</span>
-                                        <span class="time float-right">刚刚</span>
-                                        <p>你好，我想询问一下管理员信息。</p>
-                                    </div>
-                                </a>
                                 <a class="dropdown-item media" href="#">
                                     <span class="photo media-left"><img alt="avatar" src="images/avatar/2.jpg"></span>
                                     <div class="message media-body">
@@ -150,7 +130,7 @@
 
                             <a class="nav-link" href="#"><i class="fa fa -cog"></i>设置</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>退出登录</a>
+                            <a class="nav-link" href="login-login.html"><i class="fa fa-power -off"></i>退出登录</a>
                         </div>
                     </div>
 
@@ -167,37 +147,89 @@
                             <div class="card-header">
                                 <strong class="card-title">管理员信息</strong>
                             </div>
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                          <th scope="col">#</th>
-                                          <th scope="col">姓名</th>
-                                          <th scope="col">电子邮箱</th>
-                                          <th scope="col">行使权力</th>
+                            <table class="table" >
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">姓名</th>
+                                        <th scope="col">电子邮箱</th>
+                                        <th scope="col">联系方式</th>
+                                        <th scope="col">行使权力</th>
+                                        <th scope="col"></th>
                                       </tr>
                                   </thead>
                                   <tbody>
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>李明</td>
+                                        <th scope="row">00001</th>
+                                        <td valign="middle">李明</td>
                                         <td>1231513@163.com</td>
+                                        <td>15222222222</td>
                                         <td>超级管理员</td>
+                                        <td>
+                                            <!--  -->
+                                            <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">修改</button>
+                                            <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h4 class="modal-title" id="myModalLabel">管理员信息</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label class=" form-control-label" for="company">管理员编号</label>
+                                                                <input class="form-control" id="company" type="text" placeholder="00001">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class=" form-control-label" for="company">姓名</label>
+                                                                <input class="form-control" id="company" type="text" placeholder="李明">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class=" form-control-label" for="company">电子邮箱</label>
+                                                                <input class="form-control" id="company" type="text" placeholder="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class=" form-control-label" for="company">联系方式</label>
+                                                                <input class="form-control" id="company" type="text" placeholder="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class=" form-control-label" for="company">行使权力</label>
+                                                                <input class="form-control" id="company" type="text" placeholder="">
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                            <button type="button" class="btn btn-primary">提交更改</button>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal -->
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">2</th>
+                                        <th scope="row">10001</th>
                                         <td>韩梅梅</td>
                                         <td>48948448@163.com</td>
+                                        <td>15333333333</td>
                                         <td>管理员</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">修改</button>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">3</th>
+                                        <th scope="row">10002</th>
                                         <td>王红花</td>
                                         <td>54987978@163.com</td>
+                                        <td>15444444444</td>
                                         <td>管理员</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">修改</button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>
