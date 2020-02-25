@@ -1,0 +1,11 @@
+{
+  "name": "backStage",
+  "integrations": {},
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://192.168.218.1:8080/api"
+    }
+  ]
+}

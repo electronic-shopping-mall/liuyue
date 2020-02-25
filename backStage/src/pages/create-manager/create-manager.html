@@ -1,0 +1,36 @@
+<ion-content>
+  <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
+  <ul>
+    <li>
+      <span>ID</span>
+      <input type="text" [(ngModel)]="managerID" class="inp" placeholder="请输入ID">
+    </li>
+    <li>
+      <span>姓名</span>
+      <input type="text" [(ngModel)]="managerName" class="inp" placeholder="请输入姓名">
+    </li>
+    <li>
+      <span>性别</span>
+      <input type="text" [(ngModel)]="sex" class="inp" placeholder="请输入性别">
+    </li>
+    <li>
+      <span>邮箱</span>
+      <input type="text" [(ngModel)]="email" class="inp" placeholder="请输入电子邮箱">
+    </li>
+    <li>
+      <span>密码</span>
+      <input type="text" [(ngModel)]="password" class="inp" placeholder="请输入密码">
+    </li>
+    <li>
+      <span>手机号</span>
+      <input type="text" [(ngModel)]="phoneNum" class="inp" placeholder="请输入手机号码">
+    </li>
+    <li>
+      <span>封禁</span>
+      <input type="text" [(ngModel)]="isForbid" class="inp" placeholder="请输入是否禁用">
+    </li>
+    <li>
+      <button class="save" (click)="save()">保存</button>
+    </li>
+  </ul>
+</ion-content>

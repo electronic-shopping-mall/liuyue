@@ -1,0 +1,20 @@
+<ion-content padding>
+  <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
+  <div style="overflow: auto;">
+    <p>详情图</p>
+  <ul>
+    <li *ngFor="let item of detail;let i=index;">
+        <img src="{{item}}">
+    </li>
+  </ul>
+
+  <p>轮播图</p>  
+  <ul>
+    <li *ngFor="let item of image;let i=index;">
+      <img src="{{item}}">
+    </li>
+  </ul>
+  </div>
+  
+  
+</ion-content>

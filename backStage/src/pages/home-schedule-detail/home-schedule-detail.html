@@ -1,0 +1,48 @@
+<!--
+  Generated template for the HomeScheduleDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content>
+  <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
+  
+  <ul>
+    <li>
+      <span>主题</span>
+      <input type="text" [(ngModel)]="theme" class="inp" readonly="true">
+      <button class="alter" (click)="alterInfo()">修改</button>
+    </li>
+    <li>
+      <span>时长</span>
+      <input type="text" [(ngModel)]="time" class="inp" readonly="true">
+      <button class="alter" (click)="save()">保存</button>
+    </li>
+    <li>
+      <span>标题</span>
+      <input type="text" [(ngModel)]="title" class="inp" readonly="true">
+    </li>
+    <li>
+      <span>背景图</span>
+      <img id="img" src="{{homeScheduleDetail[0]?.img}}" alt="">
+      <input type="file" id="fileinp" name="picture">
+      <button id="btn" (click)="upload()" disabled="true">上传</button>
+    </li>
+    <span class="span">日程安排详情</span>
+    <!-- <li *ngFor="let item of homeScheduleDetail;let i =index">
+      <input type="text" value="{{item.detailTime}}" class="time" readonly="true">
+      <br>
+      <textarea class="detail" readonly="true">{{detail}}</textarea>
+    </li> -->
+    <li>
+        <input type="text" [(ngModel)]="detailTimeone" class="time" readonly="true">
+        <br>
+        <textarea class="detail" readonly="true" [(ngModel)]="detailone"></textarea>
+    </li>
+    <li>
+        <input type="text" [(ngModel)]="detailTimetwo" class="time" readonly="true">
+        <br>
+        <textarea class="detail" readonly="true" [(ngModel)]="detailtwo"></textarea>
+    </li>
+  </ul>
+</ion-content>

@@ -1,0 +1,56 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!-- <ion-header>
+
+  <ion-navbar>
+    <ion-title>login</ion-title>
+  </ion-navbar>
+
+</ion-header> -->
+
+
+<ion-content style="background:url(assets/imgs/login.png);background-size: cover">
+  <!-- <div class="login">
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>名字</th>
+        <th>性别</th>
+        <th>邮箱</th>
+        <th>密码</th>
+        <th>手机号</th>
+        <th>是否禁用</th>
+      </tr>
+      <tr *ngFor="let item of managerData;let i=index">
+        <td>{{item.managerID}}</td>
+        <td>{{item.managerName}}</td>
+        <td>{{item.sex}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.password}}</td>
+        <td>{{item.phoneNum}}</td>
+        <td>{{item.isForbid}}</td>
+      </tr>
+    </table>
+  </div> -->
+  
+  <div class="login">
+    <h1>管理员登录</h1>
+    <input class="text" type="text" placeholder="手机号" [(ngModel)]="phone">
+    <input class="pwd" type="password" placeholder="密   码" [(ngModel)]="pwd">
+    <button (click)="btn()">登   录</button>
+  </div>
+
+
+  <!-- <div class="login">
+    <ul *ngFor="let item of imgs;let i=index" style="list-style: none;float: left;margin: 0;padding: 5px;">
+      <li>
+        <img src="{{item}}" alt="" width="40px">
+      </li>
+    </ul>
+  </div> -->
+
+</ion-content>

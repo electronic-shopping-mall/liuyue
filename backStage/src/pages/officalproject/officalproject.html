@@ -1,0 +1,23 @@
+<ion-content>
+    <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
+    
+    <ul>
+      <li>
+        <span>作品id</span>
+        <input type="text" placeholder="{{project?.projectID}}" class="inp" readonly="true">
+      </li>
+      <li>
+        <span>作品类型</span>
+        <input type="text" placeholder="推荐" class="inp" readonly="true">
+      </li>
+      <li *ngIf="imgs?.length>0">
+          <span>作品内容</span>
+          <ul>
+              <li *ngFor="let item of imgs;let i=index;">
+                  <img src="{{item}}">
+              </li>
+          </ul> 
+           <textarea class="detail" readonly="true">{{project?.context}}</textarea>         
+      </li>
+    </ul>
+  </ion-content>

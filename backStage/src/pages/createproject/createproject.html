@@ -1,0 +1,43 @@
+<ion-content>
+  <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
+  
+  <ul>
+    <!-- <li>
+      <span>作品id</span>
+      <input type="text" class="inp" id="projectID">
+    </li> -->
+    <li>
+      <span>作品主题</span>
+      <input type="text"class="inp" id="keyword">
+    </li>
+    <li>
+        <span>作品地点</span>
+        <input type="text" class="inp" id="place">
+      </li>
+      <li>
+    <li>
+      <span>作品类型</span>
+      <input type="text"class="inp">
+    </li>
+    <li>
+        <div class="container"> 
+          <label style="margin-left:60px;">作品图片：</label> 
+          <input type="file" id="file_input" multiple/> <!--multiple，可选择多张图片-->
+          (图片要求等于小于7张) 
+          <button id="push_btn" style="height:30px;width:80px;border-radius:5px;float:right;margin-right:230px;">上传</button> 
+          <!-- <input type="file" id="inputa" name="picture">
+          <button id="buta" (click)='btn()'style="height:30px;width:80px;border-radius:5px;">上传</button> -->
+          <div class="imgdiv">
+            <!-- <img id="imga" src="" alt="" style="height:150px;"> -->
+          </div>
+          </div>
+    </li>
+    <li>
+      <span style="float:left">作品描述</span>
+      <textarea class="detail" id="context"></textarea> 
+    </li>
+  </ul>
+</ion-content>
+<ion-footer>
+  <button (click)='create()' style="height:50px;width:120px;border-radius:5px;float:right;margin-right:150px;background-color:#5f9ea0;color:white;">创建</button>  
+</ion-footer>

@@ -1,0 +1,121 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+.alert-wrapper{
+    border-radius: 3px!important;
+    max-width:500px!important;
+    height:170px;
+    border:1px solid #fd273f;
+    .alert-title{
+        color:red;
+        font-size: 23px!important;
+        text-align: center;
+        font-family: '微软雅黑';
+    }
+    .alert-sub-title{
+        font-size:18px;
+    }
+    .alert-button{
+        height:20px;
+        color:red;
+    }
+    .alert-button-group{
+        padding: 8px 8px 8px 24px;
+    }
+}
+@font-face {
+    font-family: 'iconfont';  /* project id 950556 */
+    src: url('../assets/fonts/iconfont.eot');
+    src: url('../assets/fonts/iconfont.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/iconfont.woff') format('woff'),
+    url('../assets/fonts/iconfont.ttf') format('truetype'),
+    url('../assets/fonts/iconfont.svg#iconfont') format('svg');
+  }
+
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:25px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}  
+.icon-4:before { content: "\e603"; } //返回
+
+.icon-new:before { content: "\e63e"; } //添加
+
+.icon-shanchu:before { content: "\e623"; } //删除
+
+.icon-ai240:before { content: "\e6e4"; } //关机
+
+.icon-chakan:before { content: "\e606"; } //查看(眼睛)
+
+.icon-cuo:before { content: "\e63d"; } //错号
+
+.icon-sousuo:before { content: "\e652"; } //搜索
+
+.icon-shezhi:before { content: "\e600"; } //设置
+
+.icon-xialajiantou:before { content: "\e629"; } //下拉箭头
+
+.icon-richeng:before { content: "\e628"; }  //日程管理
+
+.icon-pinglun:before { content: "\e61e"; } //评论管理
+ 
+.icon-zuopin:before { content: "\e620"; }  //作品管理
+
+.icon-huodong:before { content: "\e98b"; } //活动管理
+
+.icon-fonts-user:before { content: "\e604"; } //账号管理
+
+.icon-lock-open:before { content: "\e7c4"; } //解冻
+
+.icon-snow:before { content: "\e7ce"; } //冻结
+
+.icon-shujufenxi:before { content: "\e632"; } //数据分析
+
+.icon-guanzhu:before { content: "\e62a"; } //新增用户
+
+.icon-key:before { content: "\e7e1"; } //密码
+
+.icon-touxiang:before { content: "\e655"; } //头像
+
+.modal-wrapper{  //修改模态框大小
+    left: 230px;
+    width: 1280px;
+    height: 640px;
+    top:70px;
+}
+
+//修改弹窗样式
+.alert-wrapper{
+    width:600px;
+    height:200px;
+    border:1px solid #5f9ea0;
+    .alert-button-group{
+        padding: 80px 8px 8px 24px;
+    }
+    .alert-title{
+        color:#5f9ea0;
+    }
+    .alert-button{
+        color:#5f9ea0;
+    }
+}
+
+.alert-md .alert-button{
+    font-size:20px;
+}

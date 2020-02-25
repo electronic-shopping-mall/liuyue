@@ -1,0 +1,33 @@
+page-product-detail {
+    ion-content{
+       .back{
+        background: none;
+        font-size: 22px;
+        color:#5f9ea0;
+
+        position: absolute;
+
+    }
+    p{
+        margin-left: 45%;
+        font-size: 40px;
+        font-weight:bolder;
+    }
+    ul{font-size:16px;
+        margin-top:15px;
+        margin: 0 auto;
+        border-color:#5f9ea0;
+        border-radius: 5px;
+        li{
+            margin: 5px;
+            overflow: hidden;
+            text-align: center;
+
+        }
+    }
+}   
+    
+
+}
+
+
