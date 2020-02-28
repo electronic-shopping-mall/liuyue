@@ -15,6 +15,8 @@
 - 标注：引入NavController，需要用到modalCtrl.create方法的界面有：①创建新管理员②修改管理员信息③创建新商品④商品图片查看⑤修改商品信息⑥创建新资讯
 - 标注：需要用到关键字搜索的页面：all
 
+### 更新内容（2.28）
+- 图片上传功能的实现，通过获取路径保存至数据库
 <!-- - [项目数据库设计书](https://github.com/electronic-shopping-mall/liuyue/blob/master/%E3%80%8A%E6%88%91%E7%88%B1%E6%88%91%E5%AE%B6%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E3%80%8B_%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.docx) -->
 
 
