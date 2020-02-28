@@ -35,9 +35,8 @@
 
     <div class="right" [ngSwitch]="num">
       
-      <!-- 1管理员模块 -->
+      <!-- 1管理员模块 做好了增删改查-->
         <div *ngSwitchCase="1" class="div">
-
             <div id="searchone">
                 <select id="select1" [(ngModel)]="typeTextone" (focus)="clear()">
                     <option value="all">全部</option>
@@ -47,7 +46,7 @@
                 </select>
                 <input type="text" [(ngModel)]="textone" placeholder="请输入搜索内容" class="search">
                 <i class="iconfont icon-sousuo" (click)="searchone()"></i>
-                <button id="new" (click)="newManager()" style="color:white;background-color:#5f9ea0;width:80px;height:40px;border-radius:5px;float:right;margin-right:50px;">新建</button>
+                <button (click)="newManager()" style="color:white;background-color:#5f9ea0;width:80px;height:40px;border-radius:5px;float:right;margin-right:50px;">新建</button>
             </div>
             <div class="biao1">
               <table  width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
@@ -71,7 +70,7 @@
                   <td>
                     <button class="freeze" (click)="freeze(i)"><i class="iconfont icon-snow"></i>冻结</button>&nbsp;|&nbsp;
                     <button class="unfreeze" (click)="unfreeze(i)"><i class="iconfont icon-lock-open"></i>解冻</button>&nbsp;|&nbsp;
-                    <button >修改</button>&nbsp;|&nbsp;
+                    <button  (click)="managerRevise(item.managerID)">修改</button>&nbsp;|&nbsp;
                     <button (click)="managerDelete(i)"><i class="iconfont icon-shanchu"></i>删除</button>
                   </td>
                 </tr>
@@ -79,7 +78,7 @@
             </div>
         </div>
 
-        <!-- 2用户管理 -->
+        <!-- 2用户管理 未做，需做查询和封禁-->
         <div *ngSwitchCase="2" class="div">
           <div id="searchtwo">
             <select id="select2" [(ngModel)]="typeTexttwo" (focus)="clear()">
@@ -112,18 +111,19 @@
           </div>
         </div>
 
-        <!-- 3商品 -->
+        <!-- 3商品查询 -->
         <div *ngSwitchCase="3" class="div">
-            <div id="searchthree">
-                <select id="select3" [(ngModel)]="typeTextfour" (focus)="clear()" >
+            <div id="searchthree"> 
+                <select id="select3" [(ngModel)]="typeTextthree" (focus)="clear()" >
                     <option value="all" selected = "selected">全部</option>
-                    <option value="projectID">作品ID</option>
-                    <option value="palce">地点</option>
+                    <option value="productID">商品ID</option>
+                    <option value="title">标题</option>
+                    <option value="parentType">属性分类</option>
                 </select>
-                <input type="text" [(ngModel)]="textfour" placeholder="请输入搜索内容" class="search">
-                <i class="iconfont icon-sousuo" (click)="searchfour()"></i>
-                <button (click)="createOproject()" style="color:white;background-color:#5f9ea0;width:80px;height:40px;border-radius:5px;float:right;margin-right:50px;">创建</button>
-              </div>
+                <input type="text" [(ngModel)]="textthree" placeholder="请输入搜索内容" class="search">
+                <i class="iconfont icon-sousuo" (click)="searchthree()"></i>
+                <button (click)="createProduct()" style="color:white;background-color:#5f9ea0;width:80px;height:40px;border-radius:5px;float:right;margin-right:50px;">创建</button>
+            </div>
               <div class="biao3">
                 <table  border="0" cellspacing="0" cellpadding="0" id="table3" width="100%">
                   <tr width="100%">
@@ -143,8 +143,8 @@
                     <td class="productID">{{item.productID}}</td>
                     <td>{{item.title}}</td>
                     <td>{{item.parentType}}</td>
-                    <td>{{item.childType}}没写</td>
-                    <td>{{item.detailType}}</td>
+                    <td>{{item.childType}}</td>
+                    <td>{{item.type}}</td>
                     <td style="width:5%;height:80px;padding:15px;padding-top:30px;">{{item.describeText}}</td>
                     <td>
                       <button (click)="productDetail(item.productID)">查看</button>
@@ -161,40 +161,43 @@
               </div>
         </div>
 
-        <!-- 4资讯管理 -->
+        <!-- 4资讯管理 做了添加，未做查询 -->
         <div *ngSwitchCase="4" class="div">
-            <div id="searchseven">
-                <select id="select7" [(ngModel)]="typeTextseven" (focus)="clear()">
+            <div id="searchfour">
+                <select id="select7" [(ngModel)]="typeTextfour" (focus)="clear()">
                     <option value="all">全部</option>
                     <option value="theme">主题</option>
                     <option value="time">时长</option>
-                    <option value="hsID">日程ID</option>
+                    <option value="newsID">日程ID</option>
                 </select>
-                <input type="text" [(ngModel)]="textseven" placeholder="请输入搜索内容" class="search">
-                <i class="iconfont icon-sousuo" (click)="searchseven()"></i>
-                <button id="new" (click)="newHS()">新建</button>
+                <input type="text" [(ngModel)]="textfour" placeholder="请输入搜索内容" class="search">
+                <i class="iconfont icon-sousuo" (click)="searchfour()"></i>
+                <button (click)="createNews()" style="color:white;background-color:#5f9ea0;width:80px;height:40px;border-radius:5px;float:right;margin-right:50px;">新建</button>
             </div>
             <div class="biao7">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table7">
                   <tr>
                     <th>资讯id</th>
-                    <th>资讯标题</th>
-                    <th>资讯内容</th>
+                    <th>资讯主题</th>
+                    <th>时间</th>
+                    <th>标题</th>
                     <th>图片</th>
+                    <th>文本</th>
                     <th>操作</th>
                   </tr>
-                  <tr *ngFor="let item of homeSchedule;let i=index" id="tr">
-                    <td>{{i+1}}</td>
-                    <td>{{item.hsID}}</td>
+                  <tr *ngFor="let item of news;let i=index" id="tr">
+                    <td>{{item.newsID}}</td>
                     <td>{{item.theme}}</td>
                     <td>{{item.time}}</td>
-                    <td><button (click)="homeScheduleCheck(i)"><i class="iconfont icon-chakan"></i>查看详情</button></td>
+                    <td>{{item.title}}</td>
+                    <td>
+                      <img src="{{item.images}}" width="100px">
+                    </td>
+                    <td>{{item.detail}}</td>
+                    <td><button (click)="homeScheduleCheck(i)"><i class="iconfont icon-chakan"></i>查看修改</button></td>
                   </tr>
                 </table>
             </div>
-          <!-- <input type="file" id="inp" name="picture">
-          <button id="btn" (click)="upload()">上传</button>
-          <img id="img" src="../assets/imgs/head/111111.png" alt=""> -->
         </div>
 
         <!-- 5销售信息 -->
@@ -246,15 +249,15 @@
 
         <!-- 6出库登记-->
         <div *ngSwitchCase="6" class="div">
-          <div id="searchthree">
-            <select id="select3" [(ngModel)]="typeTextthree" (focus)="clear()" >
+          <div>
+            <select id="select3" (focus)="clear()" >
                 <option value="all" selected = "selected">全部</option>
                 <option value="projectID">作品ID</option>
                 <option value="用户ID">用户ID</option>
                 <option value="palce">地点</option>
             </select>
-            <input type="text" [(ngModel)]="textthree" placeholder="请输入搜索内容" class="search">
-            <i class="iconfont icon-sousuo" (click)="searchthree()"></i>
+            <input type="text" placeholder="请输入搜索内容" class="search">
+            <i class="iconfont icon-sousuo"></i>
           </div>
           <div class="biao3">
             <table  border="0" cellspacing="0" cellpadding="0" id="table3" width="100%">

@@ -1,0 +1,37 @@
+<ion-content>
+  <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
+  <ul>
+    <li>
+      <span>资讯id</span>
+      <input type="text" [(ngModel)]="newsID" class="inp">
+      
+    </li>
+    <li>
+      <span>主题</span>
+      <input type="text" [(ngModel)]="theme" class="inp">
+      <!-- <button class="alter" (click)="alterInfo()">修改</button> -->
+    </li>
+    <li>
+      <span>时长</span>
+      <input type="text" [(ngModel)]="time" class="inp">
+      
+    </li>
+    <li>
+      <span>标题</span>
+      <input type="text" [(ngModel)]="title" class="inp">
+    </li>
+    <li>
+      <span>背景图</span>
+      <img id="img" src="{{newsDetail[0]?.images}}" alt="">
+      <input type="file" id="fileinp" name="picture">
+      <!-- <button id="btn" (click)="upload()">上传</button> -->
+    </li>
+    <span class="span">日程安排详情</span>
+    <li>
+        <textarea class="detail" [(ngModel)]="detail"></textarea>
+    </li>
+    <li>
+      <button class="alter" (click)="save()">保存</button>
+    </li>
+  </ul>
+</ion-content>

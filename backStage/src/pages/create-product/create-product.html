@@ -1,0 +1,51 @@
+<ion-content>
+  <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
+  <ul>
+    <li>
+      <span>商品ID</span>
+      <input type="text" class="inp" [(ngModel)]="productID" id="productID">
+    </li>
+    <li>
+      <span>商品标题</span>
+      <input type="text" class="inp" [(ngModel)]="title" id="title">
+    </li>
+    <li>
+      <span>首页分类</span>
+      <input type="text" class="inp" [(ngModel)]="parentType" id="parentType">
+    </li>
+    <li>
+      <span>商品分类</span>
+      <input type="text" class="inp" [(ngModel)]="childType" id="childType">
+    </li>
+    <li>
+      <span>商品规格</span>
+      <input type="text" class="inp" [(ngModel)]="type" id="type">
+    </li>
+    <li>
+      <span>描述文本</span>
+      <input type="text" class="inp" [(ngModel)]="describeText" id="describeText">
+    </li>
+    <li>
+      <span>详情图</span>
+      <img src="" alt=""> <!-- {{productDetails[0]?.detail}} -->
+      <input type="file" id="detailFile" name="picture" multiple/>
+    </li>
+    <li>
+      <span>轮播图</span>
+      <img src="" alt=""> <!-- {{productDetails[0]?.images}} -->
+      <input type="file" id="imagesFile" name="picture" multiple/>
+    </li>
+    <li>
+      <span>价格</span>
+      <input type="text" class="inp" [(ngModel)]="price" id="price">
+    </li>
+    <li>
+      <span>商品库存</span>
+      <input type="text" class="inp" [(ngModel)]="stockNum" id="stockNum">
+    </li>
+  </ul>
+</ion-content>
+<ion-footer>
+  <button (click)='create()' style="width:100px;height:40px;color:#5f9ea0;border:2px solid #5f9ea0;background: none;border-radius: 5px;margin-left:28%;font-size:16px;margin-top:20px;margin-bottom:20px;font-weight: bold">创建</button>  
+  
+</ion-footer>

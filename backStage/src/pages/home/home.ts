@@ -1,5 +1,5 @@
 import { Component,ViewChild,ElementRef } from '@angular/core';
-import { NavController, ModalController, App } from 'ionic-angular';
+import { NavController, ModalController, App, AlertController, NavParams } from 'ionic-angular';
 import { HttpClient} from '@angular/common/http';
 import { HomeScheduleDetailPage } from '../home-schedule-detail/home-schedule-detail';
 import { NewhomeSchedulePage } from '../newhome-schedule/newhome-schedule';
@@ -12,13 +12,17 @@ import { CreateprojectPage } from '../createproject/createproject';
 import * as echarts from 'echarts'; 
 import { CreateManagerPage } from '../create-manager/create-manager';
 import { ProductDetailPage } from '../product-detail/product-detail';
+import { ReviseManagerPage } from '../revise-manager/revise-manager';
+import { CreateNewsPage } from '../create-news/create-news';
+import { CreateProductPage } from '../create-product/create-product';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  constructor(public navCtrl: NavController,private http:HttpClient,public modalCtrl: ModalController,public app:App) {
+  // alertCtrl: any;
+  constructor(public navCtrl: NavController,public navParams: NavParams,public alertCtrl:AlertController,private http:HttpClient,public modalCtrl: ModalController,public app:App) {
     console.log(echarts);
   }
   goLogin(){ //退出登录
@@ -29,7 +33,6 @@ export class HomePage {
   managerName;
   flag=false;
 
-// 2.20  18：00将user改为manager
   manager=[];  //用户账号管理
   ionViewDidLoad(){
     this.managerName=localStorage.getItem('managerName');
@@ -38,6 +41,7 @@ export class HomePage {
 
   }
 
+  //设置导航栏点击事件 成功
   lis;
   fun(i){
     this.num=i;
@@ -48,17 +52,17 @@ export class HomePage {
         this.lis[j].style.backgroundColor='#32c2cd';
       }
     }
-    if(i==1){this.endOne(i);
-    }else if(i==2){this.endTwo(i);
-    }else if(i==3){this.endThree(i); 
-    }else if(i==4){this.endFour(i);
-    }else if(i==5){this.endFive(i);
-    }else if(i==6){this.endSix(i);
-    }else if(i==7){this.endSeven(i);
+    if(i==1){this.endOne(i);  //管理员信息
+    }else if(i==2){this.endTwo(i);  //用户信息
+    }else if(i==3){this.endThree(i);  //商品信息
+    }else if(i==4){this.endFour(i); //资讯信息
+    }else if(i==5){this.endFive(i); //销售管理
+    }else if(i==6){this.endSix(i);  //出库登记
+    }else if(i==7){this.endSeven(i);  //评论管理
     }
   }
 
-  //请求账号信息
+  //请求管理员账号信息 成功
   endOne(i){
     this.http.post('/api/managerinfo',{}).subscribe(data=>{   
       this.manager=Array.prototype.slice.call(data); 
@@ -68,18 +72,23 @@ export class HomePage {
 
   back;  //冻结账号返回的信息
   managerID;  //管理员的ID
-  freeze(i){  //冻结账号
+  freeze(i){  //冻结管理员账号 成功
     this.managerID=this.manager[i].managerID;
     console.log(this.managerID);
     var us=document.getElementsByClassName('isForbid')[i];
     us.innerHTML='是';
     this.http.post('/api/freezeManager',{id:this.managerID}).subscribe(data=>{
       this.back=data;
-      
       console.log(this.back.info);
     });
+    // const alert = this.alertCtrl.create({
+    //   title: '禁用成功',
+    //   subTitle: '',
+    //   buttons: ['OK']
+    // });
+    // alert.present();
   }
-  unfreeze(j){  //解冻账号
+  unfreeze(j){  //解冻管理员账号 成功
     this.managerID=this.manager[j].managerID;
     console.log(this.managerID);
     var us=document.getElementsByClassName('isForbid')[j];
@@ -87,13 +96,12 @@ export class HomePage {
     this.http.post('/api/unfreezeManager',{id:this.managerID}).subscribe(data=>{
       this.back=data;
       console.log(this.back.info);
-    });
+      })
   } 
-
 
   typeTextone;
   textone;
-  searchone(){
+  searchone(){//按照类型查询管理员信息 成功
     console.log(this.typeTextone);
     console.log(this.textone);
     if(this.typeTextone=='all'){
@@ -101,11 +109,11 @@ export class HomePage {
         this.manager=Array.prototype.slice.call(data); 
       });
     }else if(this.typeTextone=='phone'){
-      this.http.post('/api/search/phoneNum',{phoneNum:this.textone}).subscribe(data=>{
+      this.http.post('/api/searchone/phoneNum',{phoneNum:this.textone}).subscribe(data=>{
         this.manager=Array.prototype.slice.call(data); 
       });
     }else if(this.typeTextone=='sex'){
-      this.http.post('/api/search/sex',{sex:this.textone}).subscribe(data=>{
+      this.http.post('/api/searchone/sex',{sex:this.textone}).subscribe(data=>{
         this.manager=Array.prototype.slice.call(data); 
       });
     }else if(this.typeTextone=='id'){
@@ -115,12 +123,12 @@ export class HomePage {
     }
   }
 
-  newManager(){//新建一个管理员
+  newManager(){//新建一个管理员 成功
       let profileModal = this.modalCtrl.create(CreateManagerPage);
       profileModal.present();
   }
 
-  managerDelete(i){ //删除一个管理员
+  managerDelete(i){ //删除一个管理员 成功
     this.managerID=this.manager[i].managerID;
     this.http.post('/api/managerinfo/delete',{managerID:this.managerID}).subscribe(data=>{
       console.log(data);
@@ -129,7 +137,21 @@ export class HomePage {
       this.manager=Array.prototype.slice.call(data); 
       console.log(this.manager);
     });
+    const alert = this.alertCtrl.create({
+      title: '删除成功',
+      subTitle: '',
+      buttons: ['OK']
+    });
+    alert.present();
   }
+
+  
+  managerRevise(id){//修改管理员信息弹出页面 成功
+    localStorage.setItem('managerID',id);
+    let profileModal = this.modalCtrl.create(ReviseManagerPage);
+    profileModal.present();
+  }
+
 
   user=[];  //用户信息管理
   endTwo(i){
@@ -164,39 +186,76 @@ export class HomePage {
     }
   }
 
-//商品信息管理
-productInfo;//
+//商品信息请求 成功
+productInfo;
 endThree(i){
   this.http.post('/api/productInfo',{}).subscribe(data=>{  
     this.productInfo=Array.prototype.slice.call(data); 
-    // this.detail=this.productInfo.detail.split("|");
-    // console.log(this.detail);
-    // console.log(this.productInfo);
   });
 }
 
 productID;
-//商品两种类型图片的查看
+//商品两种类型图片的查看 成功
 productDetail(id){
-    // var productID=document.getElementsByClassName('product')[i];
-    // this.productID=this.productInfo[i].productID;
-    // console.log(productID); 
     localStorage.setItem('productID',id);
-
     let profileModal = this.modalCtrl.create(ProductDetailPage);
     profileModal.present();
   
 }
 
-
-homeProject;
-endFour(i){
-  // this.http.get('/api/officialProject').subscribe(data=>{  //请求系统推荐作品
-  //   this.homeProject=Array.prototype.slice.call(data); 
-  //   console.log(this.homeProject);
-  // });
+//分类查询商品信息 成功三个，其中模糊查询出错
+typeTextthree;
+textthree;
+searchthree(){
+  console.log(this.typeTextthree);
+  console.log(this.textthree);
+  if(this.typeTextthree=='all'){//请求所有商品
+    this.http.post('/api/productInfo',{}).subscribe(data=>{  
+      this.productInfo=Array.prototype.slice.call(data); 
+    });
+  }else if(this.typeTextthree=='productID'){//请求商品ID号为...的商品
+    this.http.post('/api/searchthree/productID',{productID:this.textthree}).subscribe(data=>{
+      this.productInfo=Array.prototype.slice.call(data); 
+    })
+  }else if(this.typeTextthree=='title'){//请求title为...的商品
+    this.http.post('/api/searchthree/title',{title:this.textthree}).subscribe(data=>{
+      this.productInfo=Array.prototype.slice.call(data); 
+    })
+  }else if(this.typeTextthree=='parentType'){//请求parentType为..的商品
+    this.http.post('/api/searchthree/parentType',{parentType:this.textthree}).subscribe(data=>{
+      this.productInfo=Array.prototype.slice.call(data);
+    });
+  }
 }
 
+//添加一个新商品
+createProduct(){
+  let profileModal = this.modalCtrl.create(CreateProductPage);
+  profileModal.present();
+}
+
+//请求所有资讯信息 成功啦
+news;
+endFour(i){//请求资讯
+  this.http.post('/api/news',{id:4444}).subscribe(data=>{  
+    this.news=Array.prototype.slice.call(data); 
+    console.log(this.news);
+  });
+}
+
+//新建资讯 成功啦
+createNews(){ 
+  let profileModal = this.modalCtrl.create(CreateNewsPage);
+  profileModal.present();
+}
+
+
+
+
+
+
+
+homeProject;//这个变量什么jb东西，做完了全删了
 endFive(i){
   this.http.get('/api/userProject').subscribe(data=>{  //请求系统推荐作品
     this.homeProject=Array.prototype.slice.call(data); 
@@ -210,31 +269,6 @@ endSeven(i){
     this.comment=Array.prototype.slice.call(data); 
     console.log(this.comment);
   });
-}
-//分类查询首页作品e
-typeTextthree;
-textthree;
-searchthree(){
-  // console.log(this.typeTextone);
-  // console.log(this.textone);
-  if(this.typeTextthree=='all'){
-    this.http.get('/api/homeProject').subscribe(data=>{  //请求首页推荐作品
-      this.homeProject=Array.prototype.slice.call(data); 
-    });
-  }else if(this.typeTextthree=='projectID'){//请求作品ID号为...的作品
-    this.http.post('/api/searchthree/projectID',{projectID:this.textthree}).subscribe(data=>{
-      this.homeProject=Array.prototype.slice.call(data); 
-    })
-  }else if(this.typeTextthree=='userID'){//请求用户ID号为...的作品
-    this.http.post('/api/searchthree/userID',{projectID:this.textthree}).subscribe(data=>{
-      this.homeProject=Array.prototype.slice.call(data); 
-    })
-  }else if(this.typeTextthree=='palce'){//请求地点在哪的作品(待添加)
-    this.http.post('/api/searchthree/place',{place:this.textthree}).subscribe(data=>{
-      this.homeProject=Array.prototype.slice.call(data); 
-      console.log("按地点搜索：",this.homeProject);
-    });
-  }
 }
 
 //分类查看系统作品
@@ -396,10 +430,7 @@ uppush(i){
     profileModal.present();
   }
 
-  newHS(){ //新建首页推荐日程详情
-    let profileModal = this.modalCtrl.create(NewhomeSchedulePage);
-    profileModal.present();
-  }
+  
 
   
 

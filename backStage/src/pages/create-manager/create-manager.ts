@@ -38,10 +38,10 @@ export class CreateManagerPage {
           subTitle: '',
           buttons: ['OK']
         });
-        this.http.post('/api/managerinfo',{}).subscribe(data=>{  
-        this.manager=Array.prototype.slice.call(data); 
-        console.log(this.manager);
-        });
+        // this.http.post('/api/managerinfo',{}).subscribe(data=>{  
+        // this.manager=Array.prototype.slice.call(data); 
+        // console.log(this.manager);
+        // });
        
         alert.present();
       }

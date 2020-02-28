@@ -4,16 +4,14 @@ var bodyParser=require('body-parser');
 const app=express();
 const router=express.Router();
 const log=console.log;
+// const formidable=require('formidable');
+//         fs = require('fs'),
+//         TITLE = 'formidable上传示例',
+//         AVATAR_UPLOAD_FOLDER = './public/upload/',
+//         domain = "http://192.168.218.1:8080";
 // const db=require('./db');
 // var sql = require('mssql');
 
-/*
-const formidable=require('formidable');
-        fs = require('fs'),
-        TITLE = 'formidable上传示例',
-        AVATAR_UPLOAD_FOLDER = './public/upload/',
-        domain = "http://192.168.204.144:8000";
-*/
 app.use(express.static('./public'));
 
 app.use(bodyParser.json());
@@ -28,7 +26,7 @@ const connection = mysql.createConnection({
 });
 connection.connect();
 
-//登录  已经成功
+//登录  成功
 router.post('/api/login',function(req,res){
   //log(req.body.phone);
   const sql='select password,isForbid from managerinfo where phoneNum=?';
@@ -52,7 +50,6 @@ router.post('/api/login',function(req,res){
     }
   });
 });
-
 
 //向数据库请求管理员信息 成功
 router.post('/api/managerinfo',function(req,res){
@@ -94,10 +91,10 @@ router.post('/api/unfreezeManager',function(req,res){
   });    
 });
 
-//向数据库请求管理员-1.按照手机号查询 没做出来
-router.post('/api/search/phoneNum',function(req,res){
-  const sql='select info.*,phoneNum,managerName from managerInfo and phoneNum=?';
-  connection.query(sql,[req.body.phone],function(err,results){
+//向数据库请求管理员-1.按照手机号查询 成功
+router.post('/api/searchone/phoneNum',function(req,res){
+  const sql='select * from managerInfo where phoneNum=?';
+  connection.query(sql,[req.body.phoneNum],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -107,10 +104,9 @@ router.post('/api/search/phoneNum',function(req,res){
   });
 });
 
-
-//向数据库请求管理员-2.按照性别查询 没做出来
-router.post('/api/search/sex',function(req,res){
-  const sql='select info.*,phoneNumber,userStatus,status,userName from info,login,mine where info.ID=login.ID and mine.ID=info.ID and info.sex=?';
+//向数据库请求管理员-2.按照性别查询 成功
+router.post('/api/searchone/sex',function(req,res){
+  const sql='select * from managerInfo where sex=?';
   connection.query(sql,[req.body.sex],function(err,results){
     if(err){
       console.error(err);
@@ -121,10 +117,9 @@ router.post('/api/search/sex',function(req,res){
   });
 });
 
-
-// //向数据库请求管理员-3.按照id号查询 没做出来
+// //向数据库请求管理员-3.按照id号查询 成功
 router.post('/api/searchone/id',function(req,res){
-  const sql='select info.*,phoneNumber,userStatus,status,userName from info,login,mine where info.ID=login.ID and mine.ID=info.ID and info.ID=?';
+  const sql='select * from managerInfo where managerID =?';
   connection.query(sql,[req.body.id],function(err,results){
     if(err){
       console.error(err);
@@ -149,7 +144,7 @@ router.post('/api/createManager',function(req,res){
   })
 })
 
-//删除某个管理员
+//删除某个管理员 成功
 router.post('/api/managerinfo/delete',function(req,res){
   const sql='delete from managerInfo where managerID=?';
   connection.query(sql,[req.body.managerID],function(err,resluts){
@@ -162,12 +157,11 @@ router.post('/api/managerinfo/delete',function(req,res){
   })
 });
 
-
-//向数据库请求商品信息
-router.post('/api/productInfo',function(req,res){
-  console.log(req.body.id);
-  const sql ='select * from productInfo';
-  connection.query(sql,[],function(err,results){
+//修改管理员信息弹出获取 成功
+router.post('/api/managerinfo/revise',function(req,res){
+  console.log(req.body.managerID);
+  const sql = 'select * from managerInfo where managerID=?';
+  connection.query(sql,[req.body.managerID],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -176,29 +170,16 @@ router.post('/api/productInfo',function(req,res){
   })
 })
 
-//向数据库请求商品的detail图片
-router.post('/api/productInfo/detail',function(req,res){
-  console.log(req.body.productID);
-  const sql ='select detail from productInfo where productID=?';
-  connection.query(sql,[req.body.productID],function(err,results){
+//修改管理员信息保存至数据库 成功
+router.post('/api/reviseManager',function(req,res){
+  console.log(req.body.id);
+  const sql='update managerInfo set managerID=?,managerName=?,sex=?,email=?,password=?,phoneNum=?,isForbid=? where managerID=?';
+  connection.query(sql,[req.body.managerID,req.body.managerName,req.body.sex,req.body.email,req.body.password,req.body.phoneNum,req.body.isForbid,req.body.managerID],function(err){
     if(err){
       console.error(err);
       process.exit(1);
     }
-    res.string(results);
-  })
-})
-
-//向数据库请求商品的image图片
-router.post('/api/productInfo/image',function(req,res){
-  console.log(req.body.productID);
-  const sql ='select images from productInfo where productID=?';
-  connection.query(sql,[req.body.productID],function(err,results){
-    if(err){
-      console.error(err);
-      process.exit(1);
-    }
-    res.string(results);
+    res.json({status:1});
   })
 })
 
@@ -214,6 +195,114 @@ router.post('/api/userInfo',function(req,res){
     res.json(results);
   })
 })
+
+//向数据库请求商品信息 成功
+router.post('/api/productInfo',function(req,res){
+  console.log(req.body.id);
+  const sql ='select product.*,specification.* from product,specification where product.productID = specification.productID;';
+  connection.query(sql,[],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(results);
+  })
+})
+
+//向数据库请求商品的detail图片 成功
+router.post('/api/productInfo/detail',function(req,res){
+  console.log(req.body.productID);
+  const sql ='select detail from product where productID=?';
+  connection.query(sql,[req.body.productID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(results);
+  })
+})
+
+//向数据库请求商品的image图片 成功
+router.post('/api/productInfo/image',function(req,res){
+  console.log(req.body.productID);
+  const sql ='select images from product where productID=?';
+  connection.query(sql,[req.body.productID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(results);
+  })
+})
+
+//向数据库请求商品信息-1.按照id号查询 成功
+router.post('/api/searchthree/productID',function(req,res){
+  const sql='select product.*,specification.* from product,specification where product.productID=specification.productID AND product.productID=?;';
+  connection.query(sql,[req.body.productID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+   // log(results);
+    res.json(results);    
+  });
+});
+
+//向数据库请求商品信息-2.按照标题查询 失败
+router.post('/api/searchthree/title',function(req,res){
+  const sql="select product.*,specification.* from product,specification where product.productID = specification.productID and product.title like '%?%'";
+  connection.query(sql,[req.body.title],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+   // log(results);
+    res.json(results);    
+  });
+});
+
+// //向数据库请求商品信息-3.按照分类查询 成功
+router.post('/api/searchthree/parentType',function(req,res){
+  const sql='select product.*,specification.* from product,specification where product.productID = specification.productID and product.parentType=? ';
+  connection.query(sql,[req.body.parentType],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+    //log(results);
+    res.json(results);    
+  });
+});
+
+//请求所有资讯 成功
+router.post('/api/news',function(req,res){
+  console.log(req.body.id);
+  const sql='select * from news';
+  connection.query(sql,[],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(results);
+  });
+});
+
+//添加新资讯 成功
+router.post('/api/news/create',function(req,res){
+  console.log(req.body.id);
+  const sql = 'insert into news values(?,?,?,?,?,?)';
+  connection.query(sql,[req.body.newsID,req.body.theme,req.body.time,req.body.title,req.body.images,req.body.detail],function (err,resluts){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    log(resluts);
+    res.json({status:1});
+  })
+})
+
+
+
 
 //查询收货地址
 router.post('/api/address',function(req,res){
@@ -274,7 +363,7 @@ router.post('/api/addAddress',function(req,res){
 
   if(req.body.isDefault==true){
     const sql2='insert into address values(?,?,?,?,?,?,?,null)';
-    connection.query(sql2,[randomAddressID,req.body.userID,req.body.name,req.body.phone,req.body.area,req.body.detail,'true'],function(err,results){
+    connection.query(sql2,[randomAddressID,req.body.userID,req.body.name,req.body.phone,req.body.area,req.body.detail,'true'],function(err,_results){
       if(err){
         console.error(err);
         process.exit(1);
@@ -282,7 +371,7 @@ router.post('/api/addAddress',function(req,res){
     });
 
     const sql3='update address set isDefault=? where userID=? and addressID!=?';
-    connection.query(sql3,['false',req.body.userID,randomAddressID],function(err,results){
+    connection.query(sql3,['false',req.body.userID,randomAddressID],function(err,_results){
       if(err){
         console.error(err);
         process.exit(1);
@@ -291,7 +380,7 @@ router.post('/api/addAddress',function(req,res){
     });
   }else{
     const sql2='insert into address values(?,?,?,?,?,?,?,null)';
-    connection.query(sql2,[randomAddressID,req.body.userID,req.body.name,req.body.phone,req.body.area,req.body.detail,'false'],function(err,results){
+    connection.query(sql2,[randomAddressID,req.body.userID,req.body.name,req.body.phone,req.body.area,req.body.detail,'false'],function(err,_results){
       if(err){
         console.error(err);
         process.exit(1);
@@ -302,10 +391,10 @@ router.post('/api/addAddress',function(req,res){
 });
 
 //修改默认地址
-router.post('/api/changeDefault',function(req,res){
+router.post('/api/changeDefault',function(req,_res){
   if(req.body.isDefault=='true'){
     const sql1='update address set isDefault=? where addressID=?';
-    connection.query(sql1,['true',req.body.addressID],function(err,results){
+    connection.query(sql1,['true',req.body.addressID],function(err,_results){
       if(err){
         console.error(err);
         process.exit(1);
@@ -313,7 +402,7 @@ router.post('/api/changeDefault',function(req,res){
     });
 
     const sql2='update address set isDefault=? where userID=? and addressID!=?';
-    connection.query(sql2,['false',req.body.userID,req.body.addressID],function(err,results){
+    connection.query(sql2,['false',req.body.userID,req.body.addressID],function(err,_results){
       if(err){
         console.error(err);
         process.exit(1);
@@ -321,7 +410,7 @@ router.post('/api/changeDefault',function(req,res){
     });
   }else{
     const sql='update address set isDefault=? where addressID=?';
-    connection.query(sql,['false',req.body.addressID],function(err,results){
+    connection.query(sql,['false',req.body.addressID],function(err,_results){
       if(err){
         console.error(err);
         process.exit(1);
@@ -348,7 +437,7 @@ router.post('/api/editAddress',function(req,res){
   log(req.body.addressID);
   if(req.body.isDefault==true){
     const sql1='update address set name=?,phone=?,area=?,detail_address=?,isDefault=? where addressID=?';
-    connection.query(sql1,[req.body.name,req.body.phone,req.body.area,req.body.detail,'true',req.body.addressID],function(err,results){
+    connection.query(sql1,[req.body.name,req.body.phone,req.body.area,req.body.detail,'true',req.body.addressID],function(err,_results){
       if(err){
         console.error(err);
         process.exit(1);
@@ -356,7 +445,7 @@ router.post('/api/editAddress',function(req,res){
     });
     
     const sql2='update address set isDefault=? where userID=? and addressID!=?';
-    connection.query(sql2,['false',req.body.userID,req.body.addressID],function(err,results){
+    connection.query(sql2,['false',req.body.userID,req.body.addressID],function(err,_results){
       if(err){
         console.error(err);
         process.exit(1);
@@ -368,7 +457,7 @@ router.post('/api/editAddress',function(req,res){
     
   }else{
     const sql='update address set name=?,phone=?,area=?,detail_address=?,isDefault=? where addressID=?';
-    connection.query(sql,[req.body.name,req.body.phone,req.body.area,req.body.detail,'false',req.body.addressID],function(err,results){
+    connection.query(sql,[req.body.name,req.body.phone,req.body.area,req.body.detail,'false',req.body.addressID],function(err,_results){
       if(err){
         console.error(err);
         process.exit(1);
@@ -382,7 +471,7 @@ router.post('/api/editAddress',function(req,res){
 //删除某一地址
 router.post('/api/deleteAddress',function(req,res){
   const sql1='delete from address where addressID=?';
-  connection.query(sql1,[req.body.addressID],function(err,results){
+  connection.query(sql1,[req.body.addressID],function(err,_results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -398,56 +487,8 @@ router.post('/api/deleteAddress',function(req,res){
   });
 });
 
-//请求资讯 创意空间
-router.post('/api/news/creative',function(req,res){
-  const sql1='select * from news where type=?';
-  connection.query(sql1,['创意空间'],function(err,results){
-    if(err){
-      console.error(err);
-      process.exit(1);
-    }
-    res.json(results);
-  });
-});
-
-//请求某一特定资讯
-router.post('/api/news/specific',function(req,res){
-  const sql1='select * from news where newsID=?';
-  connection.query(sql1,[req.body.newsID],function(err,results){
-    if(err){
-      console.error(err);
-      process.exit(1);
-    }
-    res.json(results);
-  });
-});
-
-//测试
-router.post('/api/test',function(req,res){
-  console.log(req.body.id);
-  const sql='select * from managerInfo where managerID=?';
-  connection.query(sql,[100001],function(err,results){
-    if(err){
-      console.error(err);
-      process.exit(1);
-    }
-    res.json(results);
-    });
-  });
 
 
-//测试向数据库请求管理员信息managerInfo
-// router.post('/api/managerInfo',function(req,res){
-//   console.log(req.body.id);
-//   const sql ='select * from managerInfo';
-//   connection.query(sql,[],function(err,results){
-//     if(err){
-//       console.error(err);
-//       process.exit(1);
-//     }
-//     res.json(results);
-//   })
-// })
 
 
 app.use(router);
