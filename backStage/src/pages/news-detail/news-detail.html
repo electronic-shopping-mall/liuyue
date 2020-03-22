@@ -1,0 +1,35 @@
+<ion-content>
+ <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
+  <ul *ngFor="let item of news;let i= index">
+    <li>
+      <span>资讯ID</span>
+      <input type="text" [(ngModel)]="newsID" class="inp" readonly="true" placeholder="{{item.newsID}}">
+      <button class="alter" (click)="alterInfo()">修改</button>
+    </li>
+    <li>
+      <span>类型</span>
+      <input type="text" [(ngModel)]="type" class="inp" readonly="true" placeholder="{{item.type}}">
+      <button class="alter" (click)="save()">保存</button>
+    </li>
+    <li>
+      <span>标题</span>
+      <input type="text" [(ngModel)]="title" class="inp" readonly="true" placeholder="{{item.title}}">
+      
+    </li>
+    <li>
+      <span>时间</span>
+      <input type="text" [(ngModel)]="time" class="inp" readonly="true" placeholder="{{item.time.substring(0,10)}} {{item.time.substring(11,16)}}">
+    </li>
+    <li>
+      <span>背景图</span>
+      <img id="img" src="{{news[0]?.pictures}}" alt="未加载">
+      <input type="file" id="fileinp" name="picture">
+      <!-- <button id="btn" (click)="upload()">上传</button> -->
+    </li>
+    <span class="span">内容</span>
+    <li>
+        <textarea class="detail" [(ngModel)]="content" readonly="true" placeholder="{{item.content}}"></textarea>
+    </li>
+      
+  </ul>
+</ion-content>

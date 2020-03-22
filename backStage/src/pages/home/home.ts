@@ -1,20 +1,16 @@
 import { Component,ViewChild,ElementRef } from '@angular/core';
 import { NavController, ModalController, App, AlertController, NavParams } from 'ionic-angular';
 import { HttpClient} from '@angular/common/http';
-import { HomeScheduleDetailPage } from '../home-schedule-detail/home-schedule-detail';
-import { NewhomeSchedulePage } from '../newhome-schedule/newhome-schedule';
 import { LoginPage } from '../login/login';
-import { ProjectDetailPage } from '../project-detail/project-detail';
-import { OfficalprojectPage } from '../officalproject/officalproject';
-import { UserprojectPage } from '../userproject/userproject';
-import { CreateprojectPage } from '../createproject/createproject';
 
 import * as echarts from 'echarts'; 
+
 import { CreateManagerPage } from '../create-manager/create-manager';
 import { ProductDetailPage } from '../product-detail/product-detail';
 import { ReviseManagerPage } from '../revise-manager/revise-manager';
 import { CreateNewsPage } from '../create-news/create-news';
 import { CreateProductPage } from '../create-product/create-product';
+import { NewsDetailPage } from '../news-detail/news-detail';
 
 @Component({
   selector: 'page-home',
@@ -38,12 +34,21 @@ export class HomePage {
     this.managerName=localStorage.getItem('managerName');
   }
   ionViewWillEnter(){
-
+    // this.http.post('/api/managerinfo',{}).subscribe(data=>{   
+    //   this.manager=Array.prototype.slice.call(data); 
+    // });
+    // this.http.post('/api/news',{id:4444}).subscribe(data=>{  
+    //   this.news=Array.prototype.slice.call(data); 
+    //   console.log(this.news);
+    // });
   }
 
   //设置导航栏点击事件 成功
   lis;
+  p;
   fun(i){
+    this.p=document.getElementById("p");
+    this.p.style.display="none";
     this.num=i;
     this.lis=document.getElementsByClassName('li');
     this.lis[i-1].style.backgroundColor='#18A0A9';
@@ -58,8 +63,7 @@ export class HomePage {
     }else if(i==4){this.endFour(i); //资讯信息
     }else if(i==5){this.endFive(i); //销售管理
     }else if(i==6){this.endSix(i);  //出库登记
-    }else if(i==7){this.endSeven(i);  //评论管理
-    }
+    }else{ this.endSeven()};
   }
 
   //请求管理员账号信息 成功
@@ -81,12 +85,12 @@ export class HomePage {
       this.back=data;
       console.log(this.back.info);
     });
-    // const alert = this.alertCtrl.create({
-    //   title: '禁用成功',
-    //   subTitle: '',
-    //   buttons: ['OK']
-    // });
-    // alert.present();
+    const alert = this.alertCtrl.create({
+      title: '禁用成功',
+      subTitle: '',
+      buttons: ['OK']
+    });
+    alert.present();
   }
   unfreeze(j){  //解冻管理员账号 成功
     this.managerID=this.manager[j].managerID;
@@ -97,6 +101,12 @@ export class HomePage {
       this.back=data;
       console.log(this.back.info);
       })
+      const alert = this.alertCtrl.create({
+        title: '解禁成功',
+        subTitle: '',
+        buttons: ['OK']
+      });
+      alert.present();
   } 
 
   typeTextone;
@@ -155,26 +165,60 @@ export class HomePage {
 
   user=[];  //用户信息管理
   endTwo(i){
-    this.http.get('/api/userInfo').subscribe(data=>{  //请求用户活动信息
+    this.http.post('/api/userInfo',{}).subscribe(data=>{  //请求用户活动信息
       this.user=Array.prototype.slice.call(data); 
     });
   }
 
+  userback;  //冻结账号返回的信息
+  userID;  //用户的ID
+  freezeUser(i){  //冻结用户账号 成功
+    this.userID=this.user[i].userID;
+    console.log(this.userID);
+    var us=document.getElementsByClassName('userStatus')[i];
+    us.innerHTML='禁用';
+    this.http.post('/api/freezeUser',{id:this.userID}).subscribe(data=>{
+      this.userback=data;
+      console.log(this.userback.info);
+    });
+    // const alert = this.alertCtrl.create({
+    //   title: '禁用成功',
+    //   subTitle: '',
+    //   buttons: ['OK']
+    // });
+    // alert.present();
+  }
+  unfreezeUser(j){  //解冻用户账号 成功
+    this.userID=this.user[j].userID;
+    console.log(this.userID);
+    var us=document.getElementsByClassName('userStatus')[j];
+    us.innerHTML='正常';
+    this.http.post('/api/unfreezeUser',{id:this.userID}).subscribe(data=>{
+      this.userback=data;
+      console.log(this.userback.info);
+      })
+  }
+
+  //分类查询用户信息 成功
   typeTexttwo;
   texttwo;
-  // searchtwo(){
-  //   // console.log(this.typeTextone);
-  //   // console.log(this.textone);
-  //   if(this.typeTexttwo=='all'){
-  //     this.http.get('/api/activity').subscribe(data=>{
-  //       this.activity=Array.prototype.slice.call(data); 
-  //     });
-  //   }else if(this.typeTexttwo=='id'){
-  //     this.http.post('/api/searchtwo/id',{id:this.texttwo}).subscribe(data=>{
-  //       this.activity=Array.prototype.slice.call(data); 
-  //     });
-  //   }
-  // }
+  searchtwo(){
+    console.log(this.typeTexttwo);
+    console.log(this.texttwo);
+    if(this.typeTexttwo=='all'){//查询all用户信息
+      this.http.post('/api/userInfo',{}).subscribe(data=>{
+        this.user=Array.prototype.slice.call(data); 
+      });
+    }else if(this.typeTexttwo=='id'){//按照id号查询用户信息
+      this.http.post('/api/searchtwo/id',{userID:this.texttwo}).subscribe(data=>{
+        this.user=Array.prototype.slice.call(data); 
+      });
+    }else if(this.typeTexttwo=='name'){//按照name查询用户信息
+      this.http.post('/api/searchtwo/name',{userName:this.texttwo}).subscribe(data=>{
+        this.user=Array.prototype.slice.call(data); 
+      });
+    }
+  }
 
   search;
   clear(){
@@ -203,7 +247,7 @@ productDetail(id){
   
 }
 
-//分类查询商品信息 成功三个，其中模糊查询出错
+//分类查询商品信息 成功
 typeTextthree;
 textthree;
 searchthree(){
@@ -239,8 +283,18 @@ news;
 endFour(i){//请求资讯
   this.http.post('/api/news',{id:4444}).subscribe(data=>{  
     this.news=Array.prototype.slice.call(data); 
-    console.log(this.news);
   });
+  
+  
+}
+
+//查看修改资讯 
+newsDetail(id){ 
+  localStorage.setItem('newsID',id);
+  // localStorage.setItem('type',type);
+  // console.log(time);
+  let profileModal = this.modalCtrl.create(NewsDetailPage);
+  profileModal.present();
 }
 
 //新建资讯 成功啦
@@ -249,224 +303,174 @@ createNews(){
   profileModal.present();
 }
 
-
-
-
-
-
-
-homeProject;//这个变量什么jb东西，做完了全删了
-endFive(i){
-  this.http.get('/api/userProject').subscribe(data=>{  //请求系统推荐作品
-    this.homeProject=Array.prototype.slice.call(data); 
-    console.log(this.homeProject);
-  });
-}
-
-comment;//所有评论Sven
-endSeven(i){
-  this.http.get('/api/comment').subscribe(data=>{  
-    this.comment=Array.prototype.slice.call(data); 
-    console.log(this.comment);
-  });
-}
-
-//分类查看系统作品
+//分类查询资讯 成功
 typeTextfour;
 textfour;
 searchfour(){
-  // console.log(this.typeTextone);
-  // console.log(this.textone);
   if(this.typeTextfour=='all'){
-    this.http.get('/api/officialProject').subscribe(data=>{  //请求首页推荐作品
-      this.homeProject=Array.prototype.slice.call(data); 
+    this.http.post('/api/news',{}).subscribe(data=>{  //请求所有资讯
+      this.news=Array.prototype.slice.call(data); 
     });
-  }else if(this.typeTextfour=='projectID'){//请求作品ID号为...的作品
-    this.http.post('/api/searchfour/projectID',{projectID:this.textfour}).subscribe(data=>{
-      this.homeProject=Array.prototype.slice.call(data); 
+  }else if(this.typeTextfour=='type'){//按照类型查询
+    this.http.post('/api/searchfour/type',{type:this.textfour}).subscribe(data=>{
+      this.news=Array.prototype.slice.call(data); 
+      console.log("按类型搜索：",this.news);
     })
-  }else if(this.typeTextfour=='palce'){//请求地点在哪的作品(待添加)
-    this.http.post('/api/searchfour/place',{place:this.textfour}).subscribe(data=>{
-      this.homeProject=Array.prototype.slice.call(data); 
-      console.log("按地点搜索：",this.homeProject);
+  }else if(this.typeTextfour=='title'){//请求标题查询
+    this.http.post('/api/searchfour/title',{title:this.textfour}).subscribe(data=>{
+      this.news=Array.prototype.slice.call(data); 
+      console.log("按标题搜索：",this.news);
     });
   }
 }
 
-//分类查看用户作品
+
+sales;
+count=[];
+allprice;
+//查看商品销售额
+endFive(i){
+  this.http.post('/api/sales',{}).subscribe(data=>{
+    this.sales=Array.prototype.slice.call(data);
+
+    for(i=0;i<this.sales.length;i++){
+      var price = this.sales[i].price;
+      var soldNum = this.sales[i].soldNum;
+      this.count[i] = price * soldNum;     
+    }
+    var s = 0;
+    for(i=0;i<this.count.length;i++){
+      s += this.count[i];
+    }
+    this.allprice = s;
+  })
+  
+}
+
+//分类查询销售情况 成功
 typeTextfive;
 textfive;
-searchfive(){
-  // console.log(this.typeTextone);
-  // console.log(this.textone);
-  if(this.typeTextfive=='all'){
-    this.http.get('/api/userProject').subscribe(data=>{  //请求用户作品
-      this.homeProject=Array.prototype.slice.call(data); 
-    });
-  }else if(this.typeTextfive=='projectID'){//请求作品ID号为...的作品
-    this.http.post('/api/searchfive/projectID',{projectID:this.textfive}).subscribe(data=>{
-      this.homeProject=Array.prototype.slice.call(data); 
-    })
-  }else if(this.typeTextfive=='userID'){//请求用户ID号为...的作品
-    this.http.post('/api/searchfive/userID',{userID:this.textfive}).subscribe(data=>{
-      this.homeProject=Array.prototype.slice.call(data); 
-    })
-  }else if(this.typeTextfive=='palce'){//请求地点在哪的作品(待添加)
-    this.http.post('/api/searchfive/place',{place:this.textfive}).subscribe(data=>{
-      this.homeProject=Array.prototype.slice.call(data); 
-      console.log("按地点搜索：",this.homeProject);
-    });
-  }
-}
-
-//分类查询评论
-typeTextnine;
-textnine;
-searchnine(){
-  // console.log(this.typeTextone);
-  // console.log(this.textone);
-  if(this.typeTextnine=='all'){
-    this.http.get('/api/comment').subscribe(data=>{  //请求用户作品
-      this.comment=Array.prototype.slice.call(data); 
-    });
-  }else if(this.typeTextnine=='projectID'){//请求作品ID号为...的作品
-    this.http.post('/api/searchnine/projectID',{projectID:this.textnine}).subscribe(data=>{
-      this.comment=Array.prototype.slice.call(data); 
-    })
-  }else if(this.typeTextnine=='userID'){//请求用户ID号为...的作品
-    this.http.post('/api/searchnine/userID',{userID:this.textnine}).subscribe(data=>{
-      this.comment=Array.prototype.slice.call(data); 
-    })
-  }
-}
-
-//删除评论
-commentID;
-commentdelete(i){
-  this.commentID=this.comment[i].RowGuid;
-  this.http.post('/api/comment/delete',{RowGuid:this.commentID}).subscribe(data=>{
-    console.log(data);
-  });
-  this.http.get('/api/comment').subscribe(data=>{  
-    this.comment=Array.prototype.slice.call(data); 
-    console.log(this.comment);
-  });
-}
-
-//创建新的系统作品
-createOproject(){
-  let profileModal = this.modalCtrl.create(CreateprojectPage);
-  profileModal.present();
-}
-
-//查看作品详情
-projectdetailID;//记录点击的是哪个作品ID。
-pcheck(i){//查看推荐作品详情
-  this.projectdetailID=this.homeProject[i].projectID;
-  localStorage.setItem("projectdetailID",this.projectdetailID);
-
-  let profileModal = this.modalCtrl.create(ProjectDetailPage);
-  profileModal.present();
-}
-opcheck(i){//查看系统作品详情
-  this.projectdetailID=this.homeProject[i].projectID;
-  localStorage.setItem("projectdetailID",this.projectdetailID);
-
-  let profileModal = this.modalCtrl.create(OfficalprojectPage);
-  profileModal.present();
-}
-upcheck(i){//查看用户作品详情
-  this.projectdetailID=this.homeProject[i].pID;
-  localStorage.setItem("projectdetailID",this.projectdetailID);
-
-  let profileModal = this.modalCtrl.create(UserprojectPage);
-  profileModal.present();
-}
-//删除作品
-pdelete(i){//删除推荐作品
-  this.projectdetailID=this.homeProject[i].projectID;
-  this.http.post('/api/homeProject/delete',{projectID:this.projectdetailID}).subscribe(data=>{
-    console.log(data);
-  });
-  this.http.get('/api/homeProject').subscribe(data=>{  //请求首页推荐作品
-    this.homeProject=Array.prototype.slice.call(data); 
-    console.log(this.homeProject);
-  });
-}
-opdelete(i){//删除系统作品
-  this.projectdetailID=this.homeProject[i].projectID;
-  this.http.post('/api/officialProject/delete',{projectID:this.projectdetailID}).subscribe(data=>{
-    console.log(data);
-  })
-}
-updelete(i){//删除用户作品
-  this.projectdetailID=this.homeProject[i].projectID;
-  this.http.post('/api/userProject/delete',{projectID:this.projectdetailID}).subscribe(data=>{
-    console.log(data);
-  })
-}
-
-//推送用户作品到推荐
-uppush(i){
-  this.projectdetailID=this.homeProject[i].pID;
-  this.http.post('/api/userProject/push',{projectID:this.projectdetailID}).subscribe(data=>{
-    console.log(data);
-  })
-}
-
-  homeSchedule=[]; //推荐日程管理
-  endSix(i){
-    this.http.get('/api/homeSchedule').subscribe(data=>{  //请求首页推荐日程信息
-      this.homeSchedule=Array.prototype.slice.call(data);
-    });
-  }
-
-  hsID; //首页推荐日程id
-  homeScheduleCheck(i){ //查看首页推荐日程详情
-    this.hsID=this.homeSchedule[i].hsID;
-    console.log(this.hsID);
-    localStorage.setItem("hsDetailID",this.hsID);
-    let profileModal = this.modalCtrl.create(HomeScheduleDetailPage);
-    profileModal.present();
-  }
-
-  
-
-  
-
-  file;
-  img;
-  inp;
-  upload(){  //上传文件
-    this.img=document.getElementById('img');
-    var btn=document.getElementById('btn');
-    this.inp=document.getElementById('inp'); 
-    // 2.获取上传的数据
-    var getData=this.inp.files[0];
-    console.log(getData.name);
-    // 2.1创建格式化数据，
-    var fd=new FormData();
-    // 2.2格式化数据并以键值对的形式存放到fd对象中
-    fd.append('imageIcon',getData);
-    // 3.1创建XMLHttpRequest对象
-    var xhr=new XMLHttpRequest();
-    // 3.2使用open方法,设置请求
-    xhr.open('POST','/api/ajaxUpload',true)
-    // 3.3使用send方法发送数据
-    xhr.send(fd);
-    // 3.4监听发送数据状态
-    var that=this;
-    xhr.onreadystatechange=function(){
-      if(xhr.readyState===4){
-        console.log(xhr.responseText);
-        that.img.src=xhr.responseText;
-        //imga.src='http://192.168.73.144:8080/avatar/1544688041115.jpg';
-        //console.log(imga.src);
+searchfive(i){
+  console.log(this.typeTextfive);
+  console.log(this.textfive);
+  if(this.typeTextfive=='all'){//请求所有商品
+    this.http.post('/api/sales',{}).subscribe(data=>{  
+      this.sales=Array.prototype.slice.call(data);
+      for(i=0;i<this.sales.length;i++){
+        var price = this.sales[i].price;
+        var soldNum = this.sales[i].soldNum;
+        this.count[i] = price * soldNum;     
       }
-    }
+      var s = 0;
+      for(i=0;i<this.count.length;i++){
+        s += this.count[i];
+      }
+      this.allprice = s;
+    });
+  }else if(this.typeTextfive=='childType'){
+    this.http.post('/api/searchfive/childType',{childType:this.textfive}).subscribe(data=>{
+      this.sales=Array.prototype.slice.call(data); 
+      for(i=0;i<this.sales.length;i++){
+        var price = this.sales[i].price;
+        var soldNum = this.sales[i].soldNum;
+        this.count[i] = price * soldNum;     
+      }
+      var s = 0;
+      for(i=0;i<this.count.length;i++){
+        s += this.count[i];
+      }
+      this.allprice = s;
+    })
+  }else if(this.typeTextfive=='title'){
+    this.http.post('/api/searchfive/title',{title:this.textfive}).subscribe(data=>{
+      this.sales=Array.prototype.slice.call(data); 
+      for(i=0;i<this.sales.length;i++){
+        var price = this.sales[i].price;
+        var soldNum = this.sales[i].soldNum;
+        this.count[i] = price * soldNum;     
+      }
+      var s = 0;
+      for(i=0;i<this.count.length;i++){
+        s += this.count[i];
+      }
+      this.allprice = s;
+    })
+  }else if(this.typeTextfive=='productID'){
+    this.http.post('/api/searchfive/productID',{productID:this.textfive}).subscribe(data=>{
+      this.sales=Array.prototype.slice.call(data);
+      for(i=0;i<this.sales.length;i++){
+        var price = this.sales[i].price;
+        var soldNum = this.sales[i].soldNum;
+        this.count[i] = price * soldNum;     
+      }
+      var s = 0;
+      for(i=0;i<this.count.length;i++){
+        s += this.count[i];
+      }
+      this.allprice = s;
+    });
   }
-  
-  
+}
+
+//查看订单 ok
+orders=[];
+endSix(i){
+  this.http.post('/api/check/orderInfo',{}).subscribe(data=>{  
+    this.orders=Array.prototype.slice.call(data); 
+  });
+}
+
+//分类查询订单
+typeTextsix;
+textsix;
+searchsix(){
+  if(this.typeTextsix=='all'){
+    this.http.post('/api/check/orderInfo',{}).subscribe(data=>{
+      this.orders=Array.prototype.slice.call(data);
+       console.log(this.orders)
+    });
+  }else if(this.typeTextsix=='orderStatus'){
+    this.http.post('/api/searchsix/status',{orderStatus:this.textsix}).subscribe(data=>{
+      this.orders=Array.prototype.slice.call(data);
+      console.log(this.orders)
+    })
+  }else if(this.typeTextsix=='userID'){
+    this.http.post('/api/searchsix/userID',{userID:this.textsix}).subscribe(data=>{
+      this.orders=Array.prototype.slice.call(data);
+    });
+  }else if(this.typeTextsix=='productID'){
+    this.http.post('/api/searchsix/productID',{productID:this.textsix}).subscribe(data=>{
+      this.orders=Array.prototype.slice.call(data);
+    });
+  }
+}
+
+//修改订单状态 失败
+orderStatus;
+orderNumber;
+statusback;
+out(i){
+    this.orderNumber=this.orders[i].orderNumber;
+    console.log(this.orderNumber);
+    var ors=document.getElementsByClassName('orderStatus')[i];
+    ors.innerHTML='已发货';
+    this.http.post('/api/order/out',{id:this.orderNumber}).subscribe(data=>{
+      this.statusback=data;
+      console.log(this.statusback.info);
+      const alert = this.alertCtrl.create({
+        title: '出库成功',
+        subTitle: '',
+        buttons: ['OK']
+      });
+      alert.present();
+    });
+    
+ } 
+
+endSeven(){
+
+}
+
 }
 
 

@@ -2,19 +2,19 @@
   <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
   <ul>
     <li>
-      <span>资讯id</span>
+      <span>资讯ID</span>
       <input type="text" [(ngModel)]="newsID" class="inp">
-      
+      <button class="alter" (click)="save()">保存</button>
     </li>
     <li>
-      <span>主题</span>
-      <input type="text" [(ngModel)]="theme" class="inp">
+      <span>类型</span>
+      <input type="text" [(ngModel)]="type" class="inp">
       <!-- <button class="alter" (click)="alterInfo()">修改</button> -->
     </li>
     <li>
-      <span>时长</span>
-      <input type="text" [(ngModel)]="time" class="inp">
       
+      <span>时间</span>
+      <input type="text" [(ngModel)]="time" id="newstime" class="inp" placeholder="点击自动获取" (click)="getTime()">
     </li>
     <li>
       <span>标题</span>
@@ -22,16 +22,14 @@
     </li>
     <li>
       <span>背景图</span>
-      <img id="img" src="{{newsDetail[0]?.images}}" alt="">
+      <img id="img" src="{{newsDetail[0]?.pictures}}" alt="">
       <input type="file" id="fileinp" name="picture">
       <!-- <button id="btn" (click)="upload()">上传</button> -->
     </li>
-    <span class="span">日程安排详情</span>
+    <span class="span">内容</span>
     <li>
-        <textarea class="detail" [(ngModel)]="detail"></textarea>
+        <textarea class="detail" [(ngModel)]="content"></textarea>
     </li>
-    <li>
-      <button class="alter" (click)="save()">保存</button>
-    </li>
+      
   </ul>
 </ion-content>

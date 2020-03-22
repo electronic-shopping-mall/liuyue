@@ -16,28 +16,30 @@
     </div>
     <div class="left">
       <div>
-        <img src="../assets/imgs/head/111112.png" alt="">
+        <img src="../assets/imgs/head/admin.jpg" alt="">
         <div>
             <span>{{managerName}}!<br><br>欢迎登录</span>
         </div>
       </div>
+      <!-- <i class="iconfont icon-fonts-user"></i><i class="iconfont icon-huodong"></i> -->
       <ul id="ul">
-        <li (click)="fun(1)" class="li"><i class="iconfont icon-fonts-user"></i>管理员信息</li>
-        <li (click)="fun(2)" class="li"><i class="iconfont icon-huodong"></i>用户信息</li>
+        <li (click)="fun(1)" class="li"><i class="iconfont"></i>管理员信息</li>
+        <li (click)="fun(2)" class="li"><i class="iconfont"></i>用户信息</li>
         <li (click)="fun(3)" class="li"><i class="iconfont"></i>商品信息</li>
         <li (click)="fun(4)" class="li"><i class="iconfont"></i>资讯信息</li>
         <li (click)="fun(5)" class="li"><i class="iconfont"></i>销售信息</li>
         <li (click)="fun(6)" class="li"><i class="iconfont"></i>出库登记</li>
-        <li (click)="fun(7)" class="li"><i class="iconfont icon-pinglun"></i>评论管理</li>
+        <!-- <li (click)="fun(7)" class="li"><i class="iconfont"></i>评论管理</li> -->
       </ul>
     </div>
 
 
     <div class="right" [ngSwitch]="num">
-      
+        <p id="p" style="text-align: center;font-size: 30px;margin-top:15%;">欢迎登录我爱我家后台管理系统！<br><br>开始工作吧！
+        </p>
       <!-- 1管理员模块 做好了增删改查-->
         <div *ngSwitchCase="1" class="div">
-            <div id="searchone">
+            <div id="searchthree">
                 <select id="select1" [(ngModel)]="typeTextone" (focus)="clear()">
                     <option value="all">全部</option>
                     <option value="phone">手机号</option>
@@ -68,22 +70,24 @@
                   <td>{{item.phoneNum}}</td>
                   <td class="isForbid">{{item.isForbid}}</td>
                   <td>
-                    <button class="freeze" (click)="freeze(i)"><i class="iconfont icon-snow"></i>冻结</button>&nbsp;|&nbsp;
-                    <button class="unfreeze" (click)="unfreeze(i)"><i class="iconfont icon-lock-open"></i>解冻</button>&nbsp;|&nbsp;
+                    <!-- 图标<i class="iconfont icon-snow"></i><i class="iconfont icon-lock-open"></i> <i class="iconfont icon-shanchu"></i>-->
+                    <button class="freeze" (click)="freeze(i)">冻结</button>&nbsp;|&nbsp;
+                    <button class="unfreeze" (click)="unfreeze(i)">解冻</button>&nbsp;|&nbsp;
                     <button  (click)="managerRevise(item.managerID)">修改</button>&nbsp;|&nbsp;
-                    <button (click)="managerDelete(i)"><i class="iconfont icon-shanchu"></i>删除</button>
+                    <button (click)="managerDelete(i)">删除</button>
                   </td>
                 </tr>
               </table>
             </div>
         </div>
 
-        <!-- 2用户管理 未做，需做查询和封禁-->
+        <!-- 2用户管理 查询和封禁均已成功 -->
         <div *ngSwitchCase="2" class="div">
-          <div id="searchtwo">
+          <div id="searchthree">
             <select id="select2" [(ngModel)]="typeTexttwo" (focus)="clear()">
                 <option value="all" selected="selected">全部</option>
                 <option value="id">ID号</option>
+                <option value="name">姓名</option>
             </select>
             <input type="text" [(ngModel)]="texttwo" placeholder="请输入搜索内容" class="search">
             <i class="iconfont icon-sousuo" (click)="searchtwo()"></i>
@@ -92,20 +96,24 @@
             <table  width="100%" border="0" cellspacing="0" cellpadding="0" id="table2">
               <tr>
                 <th>ID</th>
-                <th>用户名称</th>
+                <th>用户姓名</th>
                 <th>性别</th>
-                <th>联系电话</th>
-                <th>**</th>
-                <th>**</th>
+                <th>出生日期</th>
+                <th>居住地</th>
+                <th>状态</th>
+                <th>操作</th>
               </tr>
               <tr *ngFor="let item of user;let i=index" id="tr">
-                <td></td>
-                <td></td>
-                <td><button>[详情]</button></td>
-                <td><button>[详情]</button></td>
-                <td><button>[详情]</button></td>
-                <td><button>[详情]</button></td>
-                <!-- <td><button (click)="ucheck(i)">查看详情</button>&nbsp;|&nbsp;<button class="freeze" (click)="freeze(i)">冻结账号</button>&nbsp;|&nbsp;<button class="unfreeze" (click)="unfreeze(i)">解冻账号</button></td> -->
+                <td>{{item.userID}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.sex}}</td>
+                <td>{{item.birthday}}</td>
+                <td>{{item.location}}</td>
+                <td class="userStatus">{{item.status}}</td>
+                <td>
+                  <!-- <button (click)="ucheck(i)">查看详情</button>&nbsp;|&nbsp; -->
+                  <button class="freeze" (click)="freezeUser(i)">冻结</button>&nbsp;|
+                  <button class="unfreeze" (click)="unfreezeUser(i)">解冻</button></td>
               </tr>
             </table>
           </div>
@@ -127,17 +135,17 @@
               <div class="biao3">
                 <table  border="0" cellspacing="0" cellpadding="0" id="table3" width="100%">
                   <tr width="100%">
-                    <th style="width:5%;">ID</th>
+                    <th style="width:10%;">ID</th>
                     <th style="width:10%;">标题</th>
-                    <th style="width:5%;">一类</th>
-                    <th style="width:5%;">二类</th>
-                    <th style="width:8%;">三类</th>
+                    <th style="width:5%;">父类</th>
+                    <th style="width:5%;">子类</th>
+                    <th style="width:8%;">规格</th>
                     <th style="width:20%;">描述文本</th>
                     <th style="width:3%;">图片</th>
-                    <th style="width:3%;">价格</th>
+                    <th style="width:5%;">价格/元</th>
                     <th style="width:3%;">售出</th>
                     <th style="width:3%;">库存</th>
-                    <th  style="width:26%;">操作</th>
+                    <th  style="width:18%;">操作</th>
                   </tr>
                   <tr *ngFor="let item of productInfo;let i=index" id="tr">
                     <td class="productID">{{item.productID}}</td>
@@ -153,22 +161,22 @@
                     <td>{{item.soldNum}}</td>
                     <td>{{item.stockNum}}</td>
                     <td>
+                      <!-- 图标<i class="iconfont icon-shanchu"></i> -->
                       <!-- <button (click)="opcheck(i)"><i class="iconfont icon-chakan"></i>详情</button>&nbsp;|&nbsp; -->
                       <button>修改</button>&nbsp;|&nbsp;
-                      <button (click)="opdelete(i)"><i class="iconfont icon-shanchu"></i>删除</button>&nbsp;&nbsp;
+                      <button (click)="opdelete(i)">删除</button>&nbsp;&nbsp;
                       </tr>
                 </table>
               </div>
         </div>
 
-        <!-- 4资讯管理 做了添加，未做查询 -->
+        <!-- 4资讯管理  -->
         <div *ngSwitchCase="4" class="div">
-            <div id="searchfour">
+            <div id="searchthree">
                 <select id="select7" [(ngModel)]="typeTextfour" (focus)="clear()">
                     <option value="all">全部</option>
-                    <option value="theme">主题</option>
-                    <option value="time">时长</option>
-                    <option value="newsID">日程ID</option>
+                    <option value="type">类型</option>
+                    <option value="title">标题</option>
                 </select>
                 <input type="text" [(ngModel)]="textfour" placeholder="请输入搜索内容" class="search">
                 <i class="iconfont icon-sousuo" (click)="searchfour()"></i>
@@ -177,24 +185,30 @@
             <div class="biao7">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table7">
                   <tr>
-                    <th>资讯id</th>
-                    <th>资讯主题</th>
-                    <th>时间</th>
+                    <th>资讯ID</th>
+                    <th>资讯类型</th>
                     <th>标题</th>
+                    <th>内容</th>
                     <th>图片</th>
-                    <th>文本</th>
+                    <th>时间</th>
                     <th>操作</th>
                   </tr>
+                  <!--  -->
                   <tr *ngFor="let item of news;let i=index" id="tr">
                     <td>{{item.newsID}}</td>
-                    <td>{{item.theme}}</td>
-                    <td>{{item.time}}</td>
+                    <td>{{item.type}}</td>
                     <td>{{item.title}}</td>
                     <td>
-                      <img src="{{item.images}}" width="100px">
+                      <button (click)="newsDetail(item.newsID)">查看</button>
                     </td>
-                    <td>{{item.detail}}</td>
-                    <td><button (click)="homeScheduleCheck(i)"><i class="iconfont icon-chakan"></i>查看修改</button></td>
+                    <td>
+                      <button  (click)="newsDetail(item.newsID)">查看</button>
+                      <!-- <img src="{{item.pictures}}" width="100px"> -->
+                    </td>
+                    <td class="newsTime">{{item.time.substring(0,10)}} {{item.time.substring(11,16)}}</td>
+                    <td>
+                      <button  (click)="newsDetail(item.newsID)"><i class="iconfont icon-chakan"></i>查看修改</button>
+                    </td>
                   </tr>
                 </table>
             </div>
@@ -203,45 +217,36 @@
         <!-- 5销售信息 -->
         <div *ngSwitchCase="5" class="div">
           <div id="searchthree">
-            <select id="select3" [(ngModel)]="typeTextfive" (focus)="clear()" width="100%">
-                <option value="all" selected = "selected">全部</option>
-                <option value="projectID">作品ID</option>
-                <option value="userID">用户ID</option>
-                <option value="palce">地点</option>
+            <select id="select5" [(ngModel)]="typeTextfive" (focus)="clear()" width="100%">
+                <option value="all">全部</option>
+                <option value="childType">分类</option>
+                <option value="title">标题</option>
+                <option value="productID">ID号</option>
             </select>
             <input type="text" [(ngModel)]="textfive" placeholder="请输入搜索内容" class="search">
             <i class="iconfont icon-sousuo" (click)="searchfive()"></i>
+            <button style="font-size:24px;color:black;width:200px;height:50px;border-radius:5px;float:right;margin-right:50px;">共{{allprice}}元</button>
           </div>
           <div class="biao3">
             <table  border="0" cellspacing="0" cellpadding="0" id="table3" width="100%">
               <tr>
-                <th style="width:5%;">序号</th>
-                <th style="width:7%;">用户ID</th>
-                <th style="width:7%;">作品ID</th>
-                <th style="width:25%;">活动内容</th>
-                <!-- <th style="width:5%;">地点</th> -->
-                <!-- <th style="width:10%;">主题</th> -->
-                <!-- <th style="width:10%;">时间</th> -->
-                <th style="width:5%;">点赞数</th>
-                <th style="width:5%;">收藏数</th>
-                <th style="width:5%;">评论数</th>
-                <th>操作</th>
+                <th style="width:10%;">商品ID</th>
+                <th style="width:25%;">商品标题</th>
+                <th>分类</th>
+                <th>规格/元</th>
+                <th>价格</th>
+                <th>售出数量</th>
+                <th>总价/元</th>
+                
               </tr>
-              <tr *ngFor="let item of homeProject;let i=index" id="tr">
-                <td style="width:5%;">{{i+1}}</td>
-                <td style="width:7%;">{{item.ID}}</td>
-                <td style="width:7%;">{{item.pID}}</td>
-                <td style="width:25%;height:100px;padding:15px;padding-top:30px;">{{item.text}}</td>
-                <!-- <td style="width:5%;">{{item.place}}上海</td> -->
-                <!-- <td style="width:10%;">{{item.keyword}}</td> -->
-                <!-- <td style="width:10%;">{{item.time.substr(0,10)+" "+item.time.substr(11,8)}}</td> -->
-                <td style="width:5%;">{{item.zan}}</td>
-                <td style="width:5%;">{{item.collect}}</td>
-                <td style="width:5%;">{{item.comment}}</td>
-                <td>
-                  <button (click)="upcheck(i)"><i class="iconfont icon-chakan"></i>查看详情</button>&nbsp;|&nbsp;
-                  <button (click)="updelete(i)"><i class="iconfont icon-shanchu"></i>删除</button>&nbsp;&nbsp;
-                  <button (click)="uppush(i)"> <ion-icon name="send"></ion-icon>推送</button>&nbsp;&nbsp;
+              <tr *ngFor="let item of sales;let i=index" id="tr" style="height:70px;">
+                <td>{{item.productID}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.childType}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.soldNum}}</td>
+                <td class="calpirce">{{item.price*item.soldNum}}</td>
               </tr>
             </table>
           </div>
@@ -249,82 +254,80 @@
 
         <!-- 6出库登记-->
         <div *ngSwitchCase="6" class="div">
-          <div>
-            <select id="select3" (focus)="clear()" >
-                <option value="all" selected = "selected">全部</option>
-                <option value="projectID">作品ID</option>
-                <option value="用户ID">用户ID</option>
-                <option value="palce">地点</option>
+          <div  id="searchthree">
+            <select id="select3" [(ngModel)]="typeTextsix" (focus)="clear()" >
+                <option value="all">全部</option>
+                <option value="orderStatus">订单状态</option>
+                <option value="userID">用户ID</option>
+                <option value="productID">商品标题</option>
             </select>
-            <input type="text" placeholder="请输入搜索内容" class="search">
-            <i class="iconfont icon-sousuo"></i>
+            <input type="text" [(ngModel)]="textsix" placeholder="请输入搜索内容" class="search">
+            <i class="iconfont icon-sousuo" (click)="searchsix()"></i>
           </div>
           <div class="biao3">
             <table  border="0" cellspacing="0" cellpadding="0" id="table3" width="100%">
               <tr>
-                <th>序号</th>
-                <th>作品ID</th>
+                <th>订单编号</th>
                 <th>用户ID</th>
-                <th>活动内容</th>
-                <th>地点</th>
-                <th>主题</th>
-                <!-- <th>时间</th> -->
-                <th>点赞数</th>
-                <th>收藏数</th>
-                <th>评论数</th>
+                <th>商品ID</th>
+                <th>数量</th>
+                <th>规格型号</th>
+                <th>创建时间</th>
+                <th>收货地址</th>
+                <th>订单状态</th>
+                <th>库存数量</th>
                 <th>操作</th>
               </tr>
-              <tr *ngFor="let item of homeProject;let i=index" id="tr">
-                <td style="width:5%;">{{i+1}}</td>
-                <td style="width:7%;">{{item.projectID}}</td>
-                <td style="width:7%;">{{item.userID}}</td>
-                <td style="width:25%;height:100px;padding:15px;padding-top:30px;">{{item.context}}</td>
-                <td style="width:5%;">{{item.place}}上海</td>
-                <td style="width:10%;">{{item.keyword}}</td>
-                <!-- <td style="width:10%;">{{item.time.substr(0,10)+" "+item.time.substr(11,8)}}</td> -->
-                <td style="width:5%;">{{item.zan}}</td>
-                <td style="width:5%;">{{item.collection}}</td>
-                <td style="width:5%;">{{item.comment}}</td>
+              <tr *ngFor="let item of orders;let i=index" id="tr" style="height:70px;line-height:60px;text-align:center;font-size:18px;">
+                <td>{{item.orderNumber}}</td>
+                <td>{{item.userID}}</td>
+                <td>{{item.productID}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.createTime.substring(0,10)}} {{item.createTime.substring(11,16)}}</td>
+                <td>{{item.address}}</td>
+                <td class="orderstatus">{{item.orderStatus}}</td>
+                <td>{{item.stockNum}}</td>
                 <td>
-                  <button (click)="pcheck(i)"><i class="iconfont icon-chakan"></i>查看详情</button>&nbsp;|&nbsp;
-                  <button (click)="pdelete(i)"><i class="iconfont icon-shanchu"></i>删除</button>&nbsp;&nbsp;
+                  <button (click)="out(i)">出库</button>
               </tr>
             </table>
           </div>
         </div>
 
-        <!-- 7评论模块 -->
-        <div *ngSwitchCase="7" class="div">
-            <div id="searchthree">
-                <select id="select3" [(ngModel)]="typeTextnine" (focus)="clear()" >
-                    <option value="all" selected = "selected">全部</option>
-                    <option value="projectID">作品ID</option>
-                    <option value="userID">用户ID</option>
-                </select>
-                <input type="text" [(ngModel)]="textnine" placeholder="请输入搜索内容" class="search">
-                <i class="iconfont icon-sousuo" (click)="searchnine()"></i>
-              </div>
-              <div class="biao3">
-                <table  border="0" cellspacing="0" cellpadding="0" id="table3" width="100%">
-                  <tr>
-                    <th>序号</th>
-                    <th>用户ID</th>
-                    <th>作品ID</th>
-                    <th>评论内容</th>
-                    <th>操作</th>
-                  </tr>
-                  <tr *ngFor="let item of comment;let i=index" id="tr">
-                    <td style="width:10%;">{{i+1}}</td>
-                    <td style="width:15%;">{{item.CommentUserID}}</td>
-                    <td style="width:15%;">{{item.ProjectID}}</td>
-                    <td style="width:25%;height:100px;padding:15px;padding-top:30px;">{{item.CommentText}}</td>
-                    <td style="width:20%;">
-                      <button (click)="commentdelete(i)"><i class="iconfont icon-shanchu"></i>删除</button>&nbsp;&nbsp;
-                  </tr>
-                </table>
-              </div>
-        </div>
-        
+        <!-- 7.评论管理 -->
+        <!-- <div *ngSwitchCase="7" class="div">
+          <div id="searchthree">
+              <select id="select3" [(ngModel)]="typeTextnine" (focus)="clear()" >
+                  <option value="all" selected = "selected">全部</option>
+                  <option value="projectID">作品ID</option>
+                  <option value="userID">用户ID</option>
+              </select>
+              <input type="text" [(ngModel)]="textnine" placeholder="请输入搜索内容" class="search">
+              <i class="iconfont icon-sousuo" (click)="searchnine()"></i>
+            </div>
+            <div class="biao3">
+              <table  border="0" cellspacing="0" cellpadding="0" id="table3" width="100%">
+                <tr>
+                  <th>序号</th>
+                  <th>用户ID</th>
+                  <th>作品ID</th>
+                  <th>评论内容</th>
+                  <th>操作</th>
+                </tr>
+                <tr *ngFor="let item of comment;let i=index" id="tr">
+                  <td style="width:10%;">{{i+1}}</td>
+                  <td style="width:15%;">{{item.CommentUserID}}</td>
+                  <td style="width:15%;">{{item.ProjectID}}</td>
+                  <td style="width:25%;height:100px;padding:15px;padding-top:30px;">{{item.CommentText}}</td>
+                  <td style="width:15%;">{{item.CommentDate.substr(0,10)+" "+item.CommentDate.substr(11,8)}}</td>
+                  <td style="width:20%;">
+                    <button (click)="commentdelete(i)"><i class="iconfont icon-shanchu"></i>删除</button>&nbsp;&nbsp;
+                </tr>
+              </table>
+            </div>
+      </div> -->
+      
     </div>
   </div>
 </ion-content>

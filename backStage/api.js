@@ -117,7 +117,7 @@ router.post('/api/searchone/sex',function(req,res){
   });
 });
 
-// //向数据库请求管理员-3.按照id号查询 成功
+//向数据库请求管理员-3.按照id号查询 成功
 router.post('/api/searchone/id',function(req,res){
   const sql='select * from managerInfo where managerID =?';
   connection.query(sql,[req.body.id],function(err,results){
@@ -183,10 +183,10 @@ router.post('/api/reviseManager',function(req,res){
   })
 })
 
-//向数据库请求用户信息
+//向数据库请求用户信息 成功
 router.post('/api/userInfo',function(req,res){
   console.log(req.body.id);
-  const sql = 'select * from userInfo';
+  const sql = 'select * from user';
   connection.query(sql,[],function(err,results){
     if(err){
       console.error(err);
@@ -195,6 +195,59 @@ router.post('/api/userInfo',function(req,res){
     res.json(results);
   })
 })
+
+//冻结用户 成功
+router.post('/api/freezeUser',function(req,res){
+  console.log(req.body.userID);
+  const sql='update user set status=? where userID=?';
+  connection.query(sql,['禁用',req.body.userID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    log(results); 
+    res.json({'info':'禁用'});
+  });    
+});
+
+//解冻用户 成功
+router.post('/api/unfreezeUser',function(req,res){
+  const sql='update user set status=? where userID=?';
+  connection.query(sql,['正常',req.body.userID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    log(results); 
+    res.json({'info':'正常'});
+  });    
+});
+
+//向数据库请求用户-1.按照id查询 成功
+router.post('/api/searchtwo/id',function(req,res){
+  const sql='select * from user where userID=?';
+  connection.query(sql,[req.body.userID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+   // log(results);
+    res.json(results);    
+  });
+});
+
+//向数据库请求管理员-2.按照姓名查询 成功
+router.post('/api/searchtwo/name',function(req,res){
+  const sql='select * from user where userName=?';
+  connection.query(sql,[req.body.userName],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+   // log(results);
+    res.json(results);    
+  });
+});
 
 //向数据库请求商品信息 成功
 router.post('/api/productInfo',function(req,res){
@@ -208,6 +261,32 @@ router.post('/api/productInfo',function(req,res){
     res.json(results);
   })
 })
+
+//添加新商品
+router.post('/api/product/createproductinfo',function(req,res){
+  console.log(req.body.id);
+  const sql = 'insert into product values(?,?,?,?,?,?,?,?)';
+  connection.query(sql,[req.body.productID,req.body.title,req.body.price,req.body.parentType,req.body.childType,req.body.describeText,req.body.detail,req.body.images],function (err,resluts){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    log(resluts);
+    res.json({status:1});
+  })
+});
+router.post('/api/product/createspecification',function(req,res){
+  console.log(req.body.id);
+  const sql='insert into specification values(?,?,?,"0")';
+  connection.query(sql,[req.body.productID,req.body.type,req.body.stockNum],function(err,resluts){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    log(resluts);
+    res.json({status:1});
+  })
+});
 
 //向数据库请求商品的detail图片 成功
 router.post('/api/productInfo/detail',function(req,res){
@@ -248,10 +327,11 @@ router.post('/api/searchthree/productID',function(req,res){
   });
 });
 
-//向数据库请求商品信息-2.按照标题查询 失败
+//向数据库请求商品信息-2.按照标题查询 成功
 router.post('/api/searchthree/title',function(req,res){
-  const sql="select product.*,specification.* from product,specification where product.productID = specification.productID and product.title like '%?%'";
-  connection.query(sql,[req.body.title],function(err,results){
+  const sql="select product.*,specification.* from product,specification where product.productID = specification.productID and product.title like ?";
+  var tmp='%'+req.body.title+'%';
+  connection.query(sql,[tmp],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -287,11 +367,51 @@ router.post('/api/news',function(req,res){
   });
 });
 
-//添加新资讯 成功
+//查看news详情
+router.post('/api/news/detail',function(req,res){
+  console.log(req.body.newsID);
+  const sql ='select * from news where newsID=?';
+  connection.query(sql,[req.body.newsID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(results);
+  })
+})
+
+//向数据库请求news信息-1.按照类型查询 成功
+router.post('/api/searchfour/type',function(req,res){
+  const sql='select * from news where type=?';
+  connection.query(sql,[req.body.type],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+   // log(results);
+    res.json(results);    
+  });
+});
+
+//向数据库请求news信息-2.按照标题查询 成功
+router.post('/api/searchfour/title',function(req,res){
+  const sql='select * from news where title like ?';
+  var tmp='%'+req.body.title+'%';
+  connection.query(sql,[tmp],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+   // log(results);
+    res.json(results);    
+  });
+});
+
+//添加新资讯
 router.post('/api/news/create',function(req,res){
   console.log(req.body.id);
   const sql = 'insert into news values(?,?,?,?,?,?)';
-  connection.query(sql,[req.body.newsID,req.body.theme,req.body.time,req.body.title,req.body.images,req.body.detail],function (err,resluts){
+  connection.query(sql,[req.body.newsID,req.body.type,req.body.title,req.body.content,req.body.pictures,req.body.time],function (err,resluts){
     if(err){
       console.error(err);
       process.exit(1);
@@ -301,198 +421,121 @@ router.post('/api/news/create',function(req,res){
   })
 })
 
+//查询销售情况
+router.post('/api/sales',function(req,res){
+  console.log(req.body.id);
+  const sql='select product.*,specification.* from product,specification where product.productID = specification.productID';
+  connection.query(sql,[],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(results);
+  });
+});
 
+//向数据库请求销售信息-1.按照子分类查询 成功
+router.post('/api/searchfive/childType',function(req,res){
+  const sql='select product.*,specification.* from product,specification where product.productID = specification.productID and product.childType=? ';
+  connection.query(sql,[req.body.childType],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+    //log(results);
+    res.json(results);    
+  });
+});
 
+//向数据库请求销售信息-2.按照标题查询 成功
+router.post('/api/searchfive/title',function(req,res){
+  const sql="select product.*,specification.* from product,specification where product.productID = specification.productID and product.title like ?";
+  var tmp='%'+req.body.title+'%';
+  connection.query(sql,[tmp],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+   // log(results);
+    res.json(results);    
+  });
+});
 
-//查询收货地址
-router.post('/api/address',function(req,res){
-  const sql='select * from address where userID=? order by time asc';
+//向数据库请求销售信息-3.按照id号查询 成功
+router.post('/api/searchfive/productID',function(req,res){
+  const sql='select product.*,specification.* from product,specification where product.productID=specification.productID AND product.productID=?;';
+  connection.query(sql,[req.body.productID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+   // log(results);
+    res.json(results);    
+  });
+});
+
+//查询订单信息
+router.post('/api/check/orderInfo',function(req,res){
+  console.log(req.body.id);
+  const sql = "select orderform.*,specification.* from specification,orderform where orderform.productID=specification.productID and orderform.type=specification.type";
+  connection.query(sql,[],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(results);
+  });
+});
+
+//分类查询订单-1状态  ok
+router.post('/api/searchsix/status',function(req,res){
+  const sql='select * from orderform where orderStatus=? ';
+  connection.query(sql,[req.body.orderStatus],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+    res.json(results);    
+  });
+});
+//分类查询订单-2用户  ok
+router.post('/api/searchsix/userID',function(req,res){
+  const sql='select * from orderform where userID=? ';
   connection.query(sql,[req.body.userID],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
-    }
-    res.json(results);
+    }     
+    res.json(results);    
+  });
+});
+//分类查询订单-3商品  ok
+router.post('/api/searchsix/productID',function(req,res){
+  const sql='select * from orderform where productID=? ';
+  connection.query(sql,[req.body.productID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }     
+    res.json(results);    
   });
 });
 
-//添加收货地址
-router.post('/api/addAddress',function(req,res){
-  var num;
-  var getRandom=function(){  //生成地址ID，6位随机数
-    var arr=new Array();
-    for(var j=1;j<=6;j++){
-      arr.push(j);
-    }
-
-    var len=arr.length;
-    var result=[];
-    var r;
-    for(var i=0;i<len;i++){
-      r=Math.floor(Math.random()*arr.length);
-      result.push(arr[r]);
-    }
-    var number='';
-    for(var k=0;k<result.length;k++){
-      number+=result[k];
-    }
-    return parseInt(number);
-
-  }
-  var randomAddressID=getRandom();
-  log(randomAddressID);
-
-  const sql1='select * from address where addressID=?';
-  connection.query(sql1,[randomAddressID],function(err,results){
+//修改订单状态
+router.post('/api/order/out',function(req,res){
+  console.log(req.body.orderNumber);
+  const sql='update orderform set orderStatus=? where orderNumber=?';
+  connection.query(sql,['已发货',req.body.orderNumber],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
     }
-    var rlen=results.length;
-    while(rlen!=0){
-      randomAddressID=getRandom();
-      return connection.query(sql1,[randomAddressID],function(err,results){
-        if(err){
-          console.error(err);
-          process.exit(1);
-        }
-        rlen=results.length;
-      });
-    }
+    log(results); 
+    res.json({'info':'发货'});
   });
-
-  if(req.body.isDefault==true){
-    const sql2='insert into address values(?,?,?,?,?,?,?,null)';
-    connection.query(sql2,[randomAddressID,req.body.userID,req.body.name,req.body.phone,req.body.area,req.body.detail,'true'],function(err,_results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-    });
-
-    const sql3='update address set isDefault=? where userID=? and addressID!=?';
-    connection.query(sql3,['false',req.body.userID,randomAddressID],function(err,_results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-      res.json({status:1}); //插入成功
-    });
-  }else{
-    const sql2='insert into address values(?,?,?,?,?,?,?,null)';
-    connection.query(sql2,[randomAddressID,req.body.userID,req.body.name,req.body.phone,req.body.area,req.body.detail,'false'],function(err,_results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-      res.json({status:1}); //插入成功
-    });
-  }
-});
-
-//修改默认地址
-router.post('/api/changeDefault',function(req,_res){
-  if(req.body.isDefault=='true'){
-    const sql1='update address set isDefault=? where addressID=?';
-    connection.query(sql1,['true',req.body.addressID],function(err,_results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-    });
-
-    const sql2='update address set isDefault=? where userID=? and addressID!=?';
-    connection.query(sql2,['false',req.body.userID,req.body.addressID],function(err,_results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-    });
-  }else{
-    const sql='update address set isDefault=? where addressID=?';
-    connection.query(sql,['false',req.body.addressID],function(err,_results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-    });
-  }
-});
-
-//查询某一特定地址
-router.post('/api/specificAddress',function(req,res){
-  const sql1='select * from address where addressID=?';
-  connection.query(sql1,[req.body.addressID],function(err,results){
-    if(err){
-      console.error(err);
-      process.exit(1);
-    }
-    res.json(results);
-  });
-});
-
-//修改收货地址
-router.post('/api/editAddress',function(req,res){
-  log(req.body.isDefault);
-  log(req.body.addressID);
-  if(req.body.isDefault==true){
-    const sql1='update address set name=?,phone=?,area=?,detail_address=?,isDefault=? where addressID=?';
-    connection.query(sql1,[req.body.name,req.body.phone,req.body.area,req.body.detail,'true',req.body.addressID],function(err,_results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-    });
-    
-    const sql2='update address set isDefault=? where userID=? and addressID!=?';
-    connection.query(sql2,['false',req.body.userID,req.body.addressID],function(err,_results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-      log('修改完毕');
-      res.json({status:1}); //修改成功
-    });
-    
-    
-  }else{
-    const sql='update address set name=?,phone=?,area=?,detail_address=?,isDefault=? where addressID=?';
-    connection.query(sql,[req.body.name,req.body.phone,req.body.area,req.body.detail,'false',req.body.addressID],function(err,_results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-      res.json({status:1}); //修改成功
-    });
-  }
-
-});
-
-//删除某一地址
-router.post('/api/deleteAddress',function(req,res){
-  const sql1='delete from address where addressID=?';
-  connection.query(sql1,[req.body.addressID],function(err,_results){
-    if(err){
-      console.error(err);
-      process.exit(1);
-    }
-    const sql2='select * from address where userID=? order by time asc';
-    connection.query(sql2,[req.body.userID],function(err,results){
-      if(err){
-        console.error(err);
-        process.exit(1);
-      }
-      res.json(results);
-    });
-  });
-});
-
-
-
+})
 
 
 app.use(router);
 
 app.listen(8080);
-
-

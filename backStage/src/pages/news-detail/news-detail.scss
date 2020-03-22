@@ -1,10 +1,10 @@
-page-create-news {
+page-news-detail {
     .back{
         background: none;
         font-size: 22px;
         color:#5f9ea0;
-        margin-left: 10px;
-        margin-top:10px;
+        margin-left: 20px;
+        margin-top:20px;
     }
 
     ul{
@@ -28,7 +28,7 @@ page-create-news {
             font-size:16px;
             margin-top:15px;
            .inp{
-               width:200px;
+               width:300px;
                height:30px;
                line-height: 30px;  
                margin-left: 20px;
@@ -65,15 +65,15 @@ page-create-news {
                 text-align: right;
             }
            .alter{
-            width:100px;
-            height:40px;
-            color:#5f9ea0;
-            border:2px solid #5f9ea0;
-            background: none;
-            border-radius: 5px;
-            margin-left:550px;
-            font-size:16px;
-            font-weight: bold;
+                width:100px;
+                height:40px;
+                color:#5f9ea0;
+                border:2px solid #5f9ea0;
+                background: none;
+                border-radius: 5px;
+                margin-left:550px;
+                font-size:16px;
+                font-weight: bold;
             }
            .detail{
                //border:1px solid red;
@@ -83,6 +83,7 @@ page-create-news {
                height:200px;
                margin-top:5px;
                margin-left:70px;
+               
            }
         }
     }

@@ -20,6 +20,7 @@ import { ProductDetailPage } from '../pages/product-detail/product-detail';
 import { ReviseManagerPage } from '../pages/revise-manager/revise-manager';
 import { CreateNewsPage } from '../pages/create-news/create-news';
 import { CreateProductPage } from '../pages/create-product/create-product';
+import { NewsDetailPage } from '../pages/news-detail/news-detail';
 @NgModule({
   declarations: [
     MyApp,
@@ -36,6 +37,7 @@ import { CreateProductPage } from '../pages/create-product/create-product';
     ReviseManagerPage,//修改管理员信息
     CreateNewsPage,//创建新的资讯
     CreateProductPage,//创新新的商品
+    NewsDetailPage,//查看资讯
   ],
   imports: [
     BrowserModule,
@@ -59,6 +61,7 @@ import { CreateProductPage } from '../pages/create-product/create-product';
     ReviseManagerPage,
     CreateNewsPage,
     CreateProductPage,
+    NewsDetailPage,
   ],
   providers: [
     StatusBar,

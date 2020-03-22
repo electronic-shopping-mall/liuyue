@@ -10,11 +10,15 @@
       <input type="text" class="inp" [(ngModel)]="title" id="title">
     </li>
     <li>
-      <span>首页分类</span>
+      <span>价格</span>
+      <input type="text" class="inp" [(ngModel)]="price" id="price">
+    </li>
+    <li>
+      <span>父级分类</span>
       <input type="text" class="inp" [(ngModel)]="parentType" id="parentType">
     </li>
     <li>
-      <span>商品分类</span>
+      <span>子级分类</span>
       <input type="text" class="inp" [(ngModel)]="childType" id="childType">
     </li>
     <li>
@@ -27,19 +31,15 @@
     </li>
     <li>
       <span>详情图</span>
-      <img src="" alt=""> <!-- {{productDetails[0]?.detail}} -->
+      <img src="{{productDetails[0]?.detail}}" alt="" id="detailimg"> <!--  -->
       <input type="file" id="detailFile" name="picture" multiple/>
     </li>
     <li>
       <span>轮播图</span>
-      <img src="" alt=""> <!-- {{productDetails[0]?.images}} -->
+      <img src="{{productDetails[0]?.images}}" alt="" id="imageimg"> <!--  -->
       <input type="file" id="imagesFile" name="picture" multiple/>
     </li>
-    <li>
-      <span>价格</span>
-      <input type="text" class="inp" [(ngModel)]="price" id="price">
-    </li>
-    <li>
+    <li style="margin-bottom:1.5em;">
       <span>商品库存</span>
       <input type="text" class="inp" [(ngModel)]="stockNum" id="stockNum">
     </li>
