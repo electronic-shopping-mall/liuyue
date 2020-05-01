@@ -14,7 +14,7 @@ export class ReviseManagerPage {
     console.log('ionViewDidLoad ReviseManagerPage');
     this.managerID=localStorage.getItem('managerID');
     this.http.post('/api/managerinfo/revise',{managerID:this.managerID}).subscribe(data=>{   
-      this.manager=Array.prototype.slice.call(data); 
+      this.manager=Array.prototype.slice.call(data);
     });
   }
 
@@ -27,7 +27,7 @@ export class ReviseManagerPage {
   isForbid;
   reviseBack;
   manager;
-  
+  /* */
   save(){
     console.log("数据修改连接到数据库");
     this.http.post('/api/reviseManager',{managerID:this.managerID,managerName:this.managerName,sex:this.sex,email:this.email,password:this.password,phoneNum:this.phoneNum,isForbid:this.isForbid}).subscribe(data=>{
@@ -46,7 +46,7 @@ export class ReviseManagerPage {
       }    
     });
   }
-
+ 
   back(){
       this.navCtrl.pop();
       
