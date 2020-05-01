@@ -12,14 +12,12 @@ export class NewsDetailPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public http:HttpClient,public alertCtrl:AlertController) {
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad NewsDetailPage');
     this.newsID=localStorage.getItem('newsID');
     // this.type=localStorage.getItem('type');
     this.http.post('/api/news/detail',{newsID:this.newsID}).subscribe(data=>{
-      this.news=Array.prototype.slice.call(data); 
-    // console.log(this.news);
+      this.news=Array.prototype.slice.call(data);
     })
     
   }

@@ -14,22 +14,21 @@
     <li>
       <span>标题</span>
       <input type="text" [(ngModel)]="title" class="inp" readonly="true" placeholder="{{item.title}}">
-      
     </li>
+    
     <li>
       <span>时间</span>
       <input type="text" [(ngModel)]="time" class="inp" readonly="true" placeholder="{{item.time.substring(0,10)}} {{item.time.substring(11,16)}}">
-    </li>
+    </li>  
     <li>
       <span>背景图</span>
-      <img id="img" src="{{news[0]?.pictures}}" alt="未加载">
       <input type="file" id="fileinp" name="picture">
-      <!-- <button id="btn" (click)="upload()">上传</button> -->
     </li>
-    <span class="span">内容</span>
     <li>
-        <textarea class="detail" [(ngModel)]="content" readonly="true" placeholder="{{item.content}}"></textarea>
+      <span style="display: block;">内容</span>
+      <textarea class="detail" [(ngModel)]="content" readonly="true" placeholder="{{item.content}}">
+      </textarea>
     </li>
-      
+    
   </ul>
 </ion-content>
