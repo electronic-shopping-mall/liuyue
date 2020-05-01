@@ -26,9 +26,9 @@ export class CreateNewsPage {
     console.log('ionViewDidLoad CreateNewsPage');
   }
   timeget;
-  getTime(){
+  getTime(){//.toLocaleString
     var timestr = new Date();
-    this.timeget = timestr.toLocaleString();
+    this.timeget = timestr.toString();
     console.log(this.timeget);
     var newstime = document.getElementById("newstime");
     newstime.innerHTML=this.timeget;
