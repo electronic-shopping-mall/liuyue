@@ -27,15 +27,15 @@ export class ProductDetailPage {
       this.productID=localStorage.getItem('productID');
       this.http.post('/api/productInfo/detail',{productID:this.productID}).subscribe(data=>{
         this.product=JSON.stringify(data);
-        this.str1=this.product.substring(12,159);
-        this.detail=this.str1.split("|"),
-        console.log(this.str1);
+        this.str1=this.product.slice(12,-3);
+        this.detail=this.str1.split("|");
+        // console.log(this.str1);
       });
       this.http.post('/api/productInfo/image',{productID:this.productID}).subscribe(data=>{
         this.product=JSON.stringify(data);
-        this.str2=this.product.substring(12,159);
-        this.image=this.str2.split("|"),
-        console.log(this.str2);
+        this.str2=this.product.slice(12,-3);
+        this.image=this.str2.split("|");
+        // console.log(this.str2);
       })
   }
 
