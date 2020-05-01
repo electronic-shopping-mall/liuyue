@@ -1,0 +1,11 @@
+<ion-content padding>
+  <button (click)="back()" class="back"><i class="iconfont icon-4"></i>返回</button>
+  <div style="overflow: auto;">
+    <p>资讯展示图</p>
+  <ul>
+    <li *ngFor="let item of image;let i=index;">
+        <img src="{{item}}" style="width: 70%;">
+    </li>
+  </ul>  
+  </div>
+</ion-content>
