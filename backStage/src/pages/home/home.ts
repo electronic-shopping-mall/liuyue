@@ -11,6 +11,8 @@ import { ReviseManagerPage } from '../revise-manager/revise-manager';
 import { CreateNewsPage } from '../create-news/create-news';
 import { CreateProductPage } from '../create-product/create-product';
 import { NewsDetailPage } from '../news-detail/news-detail';
+import { NewsImagePage } from '../news-image/news-image';
+import { NewsTexrPage } from '../news-texr/news-texr';
 
 @Component({
   selector: 'page-home',
@@ -74,16 +76,16 @@ export class HomePage {
   }
 
 
-  back;  //冻结账号返回的信息
+  isForbid;  //冻结账号返回的信息
   managerID;  //管理员的ID
   freeze(i){  //冻结管理员账号 成功
     this.managerID=this.manager[i].managerID;
     console.log(this.managerID);
     var us=document.getElementsByClassName('isForbid')[i];
     us.innerHTML='是';
-    this.http.post('/api/freezeManager',{id:this.managerID}).subscribe(data=>{
-      this.back=data;
-      console.log(this.back.info);
+    this.http.post('/api/freezeManager',{isForbid:this.isForbid,managerID:this.managerID}).subscribe(data=>{
+      this.isForbid=data;
+      console.log(this.isForbid.info);
     });
     const alert = this.alertCtrl.create({
       title: '禁用成功',
@@ -97,9 +99,9 @@ export class HomePage {
     console.log(this.managerID);
     var us=document.getElementsByClassName('isForbid')[j];
     us.innerHTML='否';
-    this.http.post('/api/unfreezeManager',{id:this.managerID}).subscribe(data=>{
-      this.back=data;
-      console.log(this.back.info);
+    this.http.post('/api/unfreezeManager',{isForbid:this.isForbid,managerID:this.managerID}).subscribe(data=>{
+      this.isForbid=data;
+      console.log(this.isForbid.info);
       })
       const alert = this.alertCtrl.create({
         title: '解禁成功',
@@ -155,7 +157,6 @@ export class HomePage {
     alert.present();
   }
 
-  
   managerRevise(id){//修改管理员信息弹出页面 成功
     localStorage.setItem('managerID',id);
     let profileModal = this.modalCtrl.create(ReviseManagerPage);
@@ -170,32 +171,32 @@ export class HomePage {
     });
   }
 
-  userback;  //冻结账号返回的信息
+  status;  //冻结账号返回的信息
   userID;  //用户的ID
   freezeUser(i){  //冻结用户账号 成功
     this.userID=this.user[i].userID;
     console.log(this.userID);
     var us=document.getElementsByClassName('userStatus')[i];
     us.innerHTML='禁用';
-    this.http.post('/api/freezeUser',{id:this.userID}).subscribe(data=>{
-      this.userback=data;
-      console.log(this.userback.info);
+    this.http.post('/api/freezeUser',{userID:this.userID,status:this.status}).subscribe(data=>{
+      this.status=data;
+      console.log(this.status.info);
     });
-    // const alert = this.alertCtrl.create({
-    //   title: '禁用成功',
-    //   subTitle: '',
-    //   buttons: ['OK']
-    // });
-    // alert.present();
+    const alert = this.alertCtrl.create({
+      title: '禁用成功',
+      subTitle: '',
+      buttons: ['OK']
+    });
+    alert.present();
   }
   unfreezeUser(j){  //解冻用户账号 成功
     this.userID=this.user[j].userID;
     console.log(this.userID);
     var us=document.getElementsByClassName('userStatus')[j];
     us.innerHTML='正常';
-    this.http.post('/api/unfreezeUser',{id:this.userID}).subscribe(data=>{
-      this.userback=data;
-      console.log(this.userback.info);
+    this.http.post('/api/unfreezeUser',{userID:this.userID,status:this.status}).subscribe(data=>{
+      this.status=data;
+      console.log(this.status.info);
       })
   }
 
@@ -236,6 +237,25 @@ endThree(i){
   this.http.post('/api/productInfo',{}).subscribe(data=>{  
     this.productInfo=Array.prototype.slice.call(data); 
   });
+}
+
+type;
+//删除商品
+productDelete(i){
+  this.productID=this.productInfo[i].productID;
+  this.type=this.productInfo[i].type;
+  this.http.post('/api/product/delete',{productID:this.productID,type:this.type}).subscribe(data=>{
+    console.log(data);
+  });
+  this.http.post('/api/productInfo',{}).subscribe(data=>{  
+    this.productInfo=Array.prototype.slice.call(data);
+  });
+  const alert = this.alertCtrl.create({
+    title: '删除成功',
+    subTitle: '',
+    buttons: ['OK']
+  });
+  alert.present();
 }
 
 productID;
@@ -288,12 +308,42 @@ endFour(i){//请求资讯
   
 }
 
-//查看修改资讯 
+//查看修改资讯 废弃
 newsDetail(id){ 
   localStorage.setItem('newsID',id);
-  // localStorage.setItem('type',type);
-  // console.log(time);
   let profileModal = this.modalCtrl.create(NewsDetailPage);
+  profileModal.present();
+}
+//删除资讯
+newsDelete(i){
+  this.newsID=this.news[i].newsID;
+  this.http.post('/api/news/delete',{newsID:this.newsID}).subscribe(data=>{
+    console.log(data);
+  });
+  this.http.post('/api/news',{}).subscribe(data=>{  
+    this.news=Array.prototype.slice.call(data); 
+    console.log(this.news);
+  });
+  const alert = this.alertCtrl.create({
+    title: '删除成功',
+    subTitle: '',
+    buttons: ['OK']
+  });
+  alert.present();
+}
+
+//查看news文本文字 成功
+newsTexr(id){
+  localStorage.setItem('newsID',id);
+  let profileModal = this.modalCtrl.create(NewsTexrPage);
+  profileModal.present();
+}
+
+//查看news图片 成功
+newsID;
+newsImg(id){
+  localStorage.setItem('newsID',id);
+  let profileModal = this.modalCtrl.create(NewsImagePage);
   profileModal.present();
 }
 
@@ -451,20 +501,24 @@ orderNumber;
 statusback;
 out(i){
     this.orderNumber=this.orders[i].orderNumber;
+    this.productID=this.orders[i].productID;
+    this.type=this.orders[i].type;
     console.log(this.orderNumber);
-    var ors=document.getElementsByClassName('orderStatus')[i];
+    console.log(this.productID);
+    console.log(this.type);
+    var ors=document.getElementsByClassName('orderstatus')[i];
     ors.innerHTML='已发货';
-    this.http.post('/api/order/out',{id:this.orderNumber}).subscribe(data=>{
+    var stock =document.getElementsByClassName('stockNum')[i];
+    this.http.post('/api/order/out',{orderNumber:this.orderNumber,productID:this.productID,type:this.type}).subscribe(data=>{
       this.statusback=data;
-      console.log(this.statusback.info);
-      const alert = this.alertCtrl.create({
-        title: '出库成功',
-        subTitle: '',
-        buttons: ['OK']
-      });
-      alert.present();
+      console.log(this.statusback.info);    
     });
-    
+    const alert = this.alertCtrl.create({
+      title: '出库成功',
+      subTitle: '',
+      buttons: ['OK']
+    });
+    alert.present();
  } 
 
 endSeven(){
