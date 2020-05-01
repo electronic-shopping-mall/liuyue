@@ -9,35 +9,28 @@ import { FormsModule } from '@angular/forms';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
-import { HomeScheduleDetailPage } from '../pages/home-schedule-detail/home-schedule-detail';
-import { NewhomeSchedulePage } from '../pages/newhome-schedule/newhome-schedule';
-import { ProjectDetailPage } from '../pages/project-detail/project-detail';
-import { OfficalprojectPage } from '../pages/officalproject/officalproject';
-import { UserprojectPage } from '../pages/userproject/userproject';
-import { CreateprojectPage } from '../pages/createproject/createproject';
 import { CreateManagerPage } from '../pages/create-manager/create-manager';
 import { ProductDetailPage } from '../pages/product-detail/product-detail';
 import { ReviseManagerPage } from '../pages/revise-manager/revise-manager';
 import { CreateNewsPage } from '../pages/create-news/create-news';
 import { CreateProductPage } from '../pages/create-product/create-product';
 import { NewsDetailPage } from '../pages/news-detail/news-detail';
+import { NewsImagePage } from '../pages/news-image/news-image';
+import { NewsTexrPage } from '../pages/news-texr/news-texr';
+
 @NgModule({
   declarations: [
     MyApp,
     HomePage, //首页
     LoginPage,  //登录页
-    HomeScheduleDetailPage,  //首页推荐日程详情页
-    NewhomeSchedulePage, //新建首页推荐日程页
-    ProjectDetailPage,//作品详情页
-    OfficalprojectPage,//系统作品详情
-    UserprojectPage,//用户作品详情页
-    CreateprojectPage,//创建新作品页面
     CreateManagerPage,//创新新的管理员
     ProductDetailPage,//查看商品详情图片
     ReviseManagerPage,//修改管理员信息
     CreateNewsPage,//创建新的资讯
     CreateProductPage,//创新新的商品
     NewsDetailPage,//查看资讯
+    NewsImagePage,//查看咨询图片
+    NewsTexrPage,
   ],
   imports: [
     BrowserModule,
@@ -50,18 +43,14 @@ import { NewsDetailPage } from '../pages/news-detail/news-detail';
     MyApp,
     HomePage,
     LoginPage,
-    HomeScheduleDetailPage,
-    NewhomeSchedulePage,
-    ProjectDetailPage,
-    OfficalprojectPage,
-    UserprojectPage,
-    CreateprojectPage,
     CreateManagerPage,
     ProductDetailPage,
     ReviseManagerPage,
     CreateNewsPage,
     CreateProductPage,
     NewsDetailPage,
+    NewsImagePage,
+    NewsTexrPage,
   ],
   providers: [
     StatusBar,
