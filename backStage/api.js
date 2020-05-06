@@ -527,7 +527,7 @@ router.post('/api/searchfive/productID',function(req,res){
   });
 });
 
-//查询订单信息
+//查询订单信息 ok
 router.post('/api/check/orderInfo',function(req,res){
   console.log(req.body.id);
   const sql = "select orderform.*,specification.* from specification,orderform where orderform.productID=specification.productID and orderform.type=specification.type order by createTime";
