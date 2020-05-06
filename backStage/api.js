@@ -576,9 +576,10 @@ router.post('/api/searchsix/productID',function(req,res){
 
 //修改订单状态
 router.post('/api/order/out',function(req,res){
-  const sql='update orderform set orderStatus=? where orderNumber=?;update specification set stockNum=stockNum-1 where productID=? and type=?;update specification set soldNum=soldNum+1 where productID=? and type=?';
+  const sql='update orderform set orderStatus=? where orderNumber=?;update specification set stockNum=stockNum-? where productID=? and type=?;';
   var tmp='已发货';
-  connection.query(sql,[tmp,req.body.orderNumber,req.body.productID,req.body.type],function(err,results){
+  var tmp1=req.body.amount;
+  connection.query(sql,[tmp,req.body.orderNumber,tmp1,req.body.productID,req.body.type],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -586,6 +587,23 @@ router.post('/api/order/out',function(req,res){
     log(results); 
     res.json({'info':'已发货'});
   });
+  // const sql1='update specification set stockNum=stockNum-? where productID=? and type=?';
+  // var tmp1=req.body.amount;
+  // connection.query(sql1,[tmp1,req.body.stockNum,req.body.productID,req.body.type],function(err,results){
+  //   if(err){
+  //     console.error(err);
+  //     process.exit(1);
+  //   }
+  //   // res.json(results);
+  // });
+  // const sql2='update specification set soldNum=soldNum+? where productID=? and type=?';
+  // connection.query(sql2,[tmp1,req.body.stockNum,req.body.productID,req.body.type],function(err,results){
+  //   if(err){
+  //     console.error(err);
+  //     process.exit(1);
+  //   }
+  //   // res.json(results);
+  // });
 })
 
 app.use(router);
