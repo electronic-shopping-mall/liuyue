@@ -63,12 +63,12 @@ router.post('/api/managerinfo',function(req,res){
     res.json(results);
   })
 })
-
 //封禁管理员 成功
 router.post('/api/freezeManager',function(req,res){
   console.log(req.body.managerID);
   const sql='update managerinfo set isForbid=? where managerID=?';
-  connection.query(sql,['是',req.body.managerID],function(err,results){
+  const tmp='是';
+  connection.query(sql,[tmp,req.body.managerID],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -81,7 +81,8 @@ router.post('/api/freezeManager',function(req,res){
 //启用管理员 成功
 router.post('/api/unfreezeManager',function(req,res){
   const sql='update managerinfo set isForbid=? where managerID=?';
-  connection.query(sql,['否',req.body.managerID],function(err,results){
+  const tmp='否';
+  connection.query(sql,[tmp,req.body.managerID],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -174,7 +175,7 @@ router.post('/api/managerinfo/revise',function(req,res){
 router.post('/api/reviseManager',function(req,res){
   console.log(req.body.id);
   const sql='update managerInfo set managerID=?,managerName=?,sex=?,email=?,password=?,phoneNum=?,isForbid=? where managerID=?';
-  connection.query(sql,[req.body.managerID,req.body.managerName,req.body.sex,req.body.email,req.body.password,req.body.phoneNum,req.body.isForbid,req.body.managerID],function(err){
+  connection.query(sql,[req.body.managerID,req.body.managerName,req.body.sex,req.body.email,req.body.password,req.body.phoneNum,req.body.isForbid],function(err){
     if(err){
       console.error(err);
       process.exit(1);
@@ -200,7 +201,8 @@ router.post('/api/userInfo',function(req,res){
 router.post('/api/freezeUser',function(req,res){
   console.log(req.body.userID);
   const sql='update user set status=? where userID=?';
-  connection.query(sql,['禁用',req.body.userID],function(err,results){
+  const tmp='禁用';
+  connection.query(sql,[tmp,req.body.userID],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -213,7 +215,8 @@ router.post('/api/freezeUser',function(req,res){
 //解冻用户 成功
 router.post('/api/unfreezeUser',function(req,res){
   const sql='update user set status=? where userID=?';
-  connection.query(sql,['正常',req.body.userID],function(err,results){
+  const tmp='正常';
+  connection.query(sql,[tmp,req.body.userID],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -261,6 +264,19 @@ router.post('/api/productInfo',function(req,res){
     res.json(results);
   })
 })
+
+//删除商品
+router.post('/api/product/delete',function(req,res){
+  const sql='delete from specification where specification.productID=? and specification.type=?';
+  connection.query(sql,[req.body.productID,req.body.type],function(err,resluts){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    // log(results);
+    res.json(resluts);
+  })
+});
 
 //添加新商品
 router.post('/api/product/createproductinfo',function(req,res){
@@ -367,10 +383,47 @@ router.post('/api/news',function(req,res){
   });
 });
 
-//查看news详情
+//查看news详情 不需要
 router.post('/api/news/detail',function(req,res){
   console.log(req.body.newsID);
   const sql ='select * from news where newsID=?';
+  connection.query(sql,[req.body.newsID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(results);
+  })
+})
+
+//删除news 成功
+router.post('/api/news/delete',function(req,res){
+  const sql='delete from news where newsID=?';
+  connection.query(sql,[req.body.newsID],function(err,resluts){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    // log(results);
+    res.json(resluts);
+  })
+});
+
+//查看new的图片
+router.post('/api/news/image',function(req,res){
+  const sql ='select pictures from news where newsID=?';
+  connection.query(sql,[req.body.newsID],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(results);
+  })
+})
+
+//查看news的内容
+router.post('/api/news/texr',function(req,res){
+  const sql ='select content from news where newsID=?';
   connection.query(sql,[req.body.newsID],function(err,results){
     if(err){
       console.error(err);
@@ -477,7 +530,7 @@ router.post('/api/searchfive/productID',function(req,res){
 //查询订单信息
 router.post('/api/check/orderInfo',function(req,res){
   console.log(req.body.id);
-  const sql = "select orderform.*,specification.* from specification,orderform where orderform.productID=specification.productID and orderform.type=specification.type";
+  const sql = "select orderform.*,specification.* from specification,orderform where orderform.productID=specification.productID and orderform.type=specification.type order by createTime";
   connection.query(sql,[],function(err,results){
     if(err){
       console.error(err);
@@ -523,18 +576,17 @@ router.post('/api/searchsix/productID',function(req,res){
 
 //修改订单状态
 router.post('/api/order/out',function(req,res){
-  console.log(req.body.orderNumber);
-  const sql='update orderform set orderStatus=? where orderNumber=?';
-  connection.query(sql,['已发货',req.body.orderNumber],function(err,results){
+  const sql='update orderform set orderStatus=? where orderNumber=?;update specification set stockNum=stockNum-1 where productID=? and type=?;update specification set soldNum=soldNum+1 where productID=? and type=?';
+  var tmp='已发货';
+  connection.query(sql,[tmp,req.body.orderNumber,req.body.productID,req.body.type],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
     }
     log(results); 
-    res.json({'info':'发货'});
+    res.json({'info':'已发货'});
   });
 })
-
 
 app.use(router);
 
