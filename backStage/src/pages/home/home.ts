@@ -495,33 +495,16 @@ searchsix(){
   }
 }
 
-//修改订单状态 失败
-orderStatus;
-orderNumber;
-statusback;
-stockback;
-soldback;
-stockNum;
-soldNum;
-amount;
+//修改订单状态 ok
+orderStatus;orderNumber;amount;
+statusback;stockback;soldback;
 out(i){
     this.orderNumber=this.orders[i].orderNumber;
     this.productID=this.orders[i].productID;
     this.type=this.orders[i].type;
-    this.stockNum=this.orders[i].stockNum;
-    this.soldNum=this.orders[i].soldNum;
     this.amount=this.orders[i].amount;
-    console.log(this.amount);
-    console.log(this.orderNumber);
-    console.log(this.productID);
-    console.log(this.type);
     var ors=document.getElementsByClassName('orderstatus')[i];
     ors.innerHTML='已发货';
-    var stock =document.getElementsByClassName('stockNum')[i];
-    this.stockNum = this.stockNum -this.amount;
-    this.soldNum = this.soldNum +this.amount;
-    console.log(this.stockNum);
-    console.log(this.soldNum);
     this.http.post('/api/order/outstatus',{orderNumber:this.orderNumber}).subscribe(data=>{
       this.statusback=data;
       console.log(this.statusback.info);    
@@ -541,10 +524,6 @@ out(i){
     });
     alert.present();
  } 
-
-endSeven(){
-
-}
 
 }
 
