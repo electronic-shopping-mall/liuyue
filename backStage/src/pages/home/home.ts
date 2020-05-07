@@ -499,6 +499,8 @@ searchsix(){
 orderStatus;
 orderNumber;
 statusback;
+stockback;
+soldback;
 stockNum;
 soldNum;
 amount;
@@ -520,11 +522,18 @@ out(i){
     this.soldNum = this.soldNum +this.amount;
     console.log(this.stockNum);
     console.log(this.soldNum);
-    this.http.post('/api/order/out',{orderNumber:this.orderNumber,productID:this.productID,type:this.type,stockNum:this.stockNum,soldNum:this.soldNum,amount:this.amount}).subscribe(data=>{
+    this.http.post('/api/order/outstatus',{orderNumber:this.orderNumber}).subscribe(data=>{
       this.statusback=data;
       console.log(this.statusback.info);    
     });
-    
+    this.http.post('/api/order/outstock',{productID:this.productID,type:this.type,amount:this.amount}).subscribe(data=>{
+      this.stockback=data;
+      console.log(this.stockback.info);    
+    });
+    this.http.post('/api/order/outsold',{productID:this.productID,type:this.type,amount:this.amount}).subscribe(data=>{
+      this.soldback=data;
+      console.log(this.soldback.info);    
+    });
     const alert = this.alertCtrl.create({
       title: '出库成功',
       subTitle: '',

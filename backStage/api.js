@@ -564,7 +564,7 @@ router.post('/api/searchsix/userID',function(req,res){
 });
 //分类查询订单-3商品  ok
 router.post('/api/searchsix/productID',function(req,res){
-  const sql='select * from orderform where productID=? ';
+  const sql='select * from orderform where productID=?';
   connection.query(sql,[req.body.productID],function(err,results){
     if(err){
       console.error(err);
@@ -575,11 +575,10 @@ router.post('/api/searchsix/productID',function(req,res){
 });
 
 //修改订单状态
-router.post('/api/order/out',function(req,res){
-  const sql='update orderform set orderStatus=? where orderNumber=?;update specification set stockNum=stockNum-? where productID=? and type=?;';
+router.post('/api/order/outstatus',function(req,res){
+  const sql='update orderform set orderStatus=? where orderNumber=?';
   var tmp='已发货';
-  var tmp1=req.body.amount;
-  connection.query(sql,[tmp,req.body.orderNumber,tmp1,req.body.productID,req.body.type],function(err,results){
+  connection.query(sql,[tmp,req.body.orderNumber],function(err,results){
     if(err){
       console.error(err);
       process.exit(1);
@@ -587,23 +586,34 @@ router.post('/api/order/out',function(req,res){
     log(results); 
     res.json({'info':'已发货'});
   });
-  // const sql1='update specification set stockNum=stockNum-? where productID=? and type=?';
-  // var tmp1=req.body.amount;
-  // connection.query(sql1,[tmp1,req.body.stockNum,req.body.productID,req.body.type],function(err,results){
-  //   if(err){
-  //     console.error(err);
-  //     process.exit(1);
-  //   }
-  //   // res.json(results);
-  // });
-  // const sql2='update specification set soldNum=soldNum+? where productID=? and type=?';
-  // connection.query(sql2,[tmp1,req.body.stockNum,req.body.productID,req.body.type],function(err,results){
-  //   if(err){
-  //     console.error(err);
-  //     process.exit(1);
-  //   }
-  //   // res.json(results);
-  // });
+})
+
+//修改订单后，库存数量减少
+router.post('/api/order/outstock',function(req,res){
+  const sql='update specification set stockNum=stockNum-? where productID=? and type=?';
+  var tmp=req.body.amount;
+  connection.query(sql,[tmp,req.body.productID,req.body.type],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    log(results);
+    res.json({'info':'库存数量减少'});
+  });
+});
+
+//修改订单后，销售数量增加
+router.post('/api/order/outsold',function(req,res){
+  const sql='update specification set soldNum=soldNum+? where productID=? and type=?';
+  var tmp=req.body.amount;
+  connection.query(sql,[tmp,req.body.productID,req.body.type],function(err,results){
+    if(err){
+      console.error(err);
+      process.exit(1);
+    }
+    log(results);
+    res.json({'info':'销售数量增加'});
+  });
 })
 
 app.use(router);
