@@ -3,32 +3,32 @@
   <ul *ngFor="let item of manager;let i= index">
     <li>
       <span>ID</span>
-      <input type="text" [(ngModel)]="managerID" class="inp" placeholder="{{item.managerID}}">
+      <input type="text" [(ngModel)]="managerID" class="inp" placeholder="{{item.managerID}}" readonly>
       
     </li>
     <li>
       <span>姓名</span>
-      <input type="text" [(ngModel)]="managerName" class="inp" placeholder="{{item.managerName}}">
+      <input type="text" [(ngModel)]="managerName" class="inp" placeholder="{{item.managerName}}" readonly>
     </li>
     <li>
       <span>性别</span>
-      <input type="text" [(ngModel)]="sex" class="inp" placeholder="{{item.sex}}">
+      <input type="text" [(ngModel)]="sex" class="inp" placeholder="{{item.sex}}" readonly>
     </li>
     <li>
       <span>邮箱</span>
       <input type="text" [(ngModel)]="email" class="inp" placeholder="{{item.email}}">
     </li>
     <li>
-      <span>密码</span>
-      <input type="text" [(ngModel)]="password" class="inp" placeholder="{{item.password}}">
-    </li>
-    <li>
       <span>手机号</span>
       <input type="text" [(ngModel)]="phoneNum" class="inp" placeholder="{{item.phoneNum}}">
     </li>
     <li>
+      <span>密码</span>
+      <input type="text" [(ngModel)]="password" class="inp" placeholder="{{item.password}}" readonly>
+    </li>
+    <li>
       <span>封禁</span>
-      <input type="text" [(ngModel)]="isForbid" class="inp" placeholder="{{item.isForbid}}">
+      <input type="text" [(ngModel)]="isForbid" class="inp" placeholder="{{item.isForbid}}" readonly>
     </li>
     <li>
       <button class="save" (click)="save()">保存</button>

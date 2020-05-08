@@ -36,13 +36,13 @@ export class HomePage {
     this.managerName=localStorage.getItem('managerName');
   }
   ionViewWillEnter(){
-    // this.http.post('/api/managerinfo',{}).subscribe(data=>{   
-    //   this.manager=Array.prototype.slice.call(data); 
-    // });
-    // this.http.post('/api/news',{id:4444}).subscribe(data=>{  
-    //   this.news=Array.prototype.slice.call(data); 
-    //   console.log(this.news);
-    // });
+    this.http.post('/api/managerinfo',{}).subscribe(data=>{   
+      this.manager=Array.prototype.slice.call(data); 
+    });
+    this.http.post('/api/news',{id:4444}).subscribe(data=>{  
+      this.news=Array.prototype.slice.call(data); 
+      console.log(this.news);
+    });
   }
 
   //设置导航栏点击事件 成功
@@ -65,7 +65,7 @@ export class HomePage {
     }else if(i==4){this.endFour(i); //资讯信息
     }else if(i==5){this.endFive(i); //销售管理
     }else if(i==6){this.endSix(i);  //出库登记
-    }else{ this.endSeven()};
+    }else{ };
   }
 
   //请求管理员账号信息 成功

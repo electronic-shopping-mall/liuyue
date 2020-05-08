@@ -30,7 +30,7 @@ export class ReviseManagerPage {
   /* */
   save(){
     console.log("数据修改连接到数据库");
-    this.http.post('/api/reviseManager',{managerID:this.managerID,managerName:this.managerName,sex:this.sex,email:this.email,password:this.password,phoneNum:this.phoneNum,isForbid:this.isForbid}).subscribe(data=>{
+    this.http.post('/api/reviseManager',{managerID:this.managerID,email:this.email,phoneNum:this.phoneNum}).subscribe(data=>{
       this.reviseBack = data;
       if(this.reviseBack.status == 1){
         const alert = this.alertCtrl.create({

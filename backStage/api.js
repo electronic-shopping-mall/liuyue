@@ -173,9 +173,9 @@ router.post('/api/managerinfo/revise',function(req,res){
 
 //修改管理员信息保存至数据库 成功
 router.post('/api/reviseManager',function(req,res){
-  console.log(req.body.id);
-  const sql='update managerInfo set managerID=?,managerName=?,sex=?,email=?,password=?,phoneNum=?,isForbid=? where managerID=?';
-  connection.query(sql,[req.body.managerID,req.body.managerName,req.body.sex,req.body.email,req.body.password,req.body.phoneNum,req.body.isForbid],function(err){
+  console.log(req.body.managerID);
+  const sql='update managerInfo set email=?,phoneNum=? where managerID=?';
+  connection.query(sql,[req.body.email,req.body.phoneNum,req.body.managerID],function(err){
     if(err){
       console.error(err);
       process.exit(1);
@@ -278,7 +278,7 @@ router.post('/api/product/delete',function(req,res){
   })
 });
 
-//添加新商品
+//添加新商品 ok
 router.post('/api/product/createproductinfo',function(req,res){
   console.log(req.body.id);
   const sql = 'insert into product values(?,?,?,?,?,?,?,?)';
@@ -409,7 +409,7 @@ router.post('/api/news/delete',function(req,res){
   })
 });
 
-//查看new的图片
+//查看new的图片 ok
 router.post('/api/news/image',function(req,res){
   const sql ='select pictures from news where newsID=?';
   connection.query(sql,[req.body.newsID],function(err,results){
@@ -421,7 +421,7 @@ router.post('/api/news/image',function(req,res){
   })
 })
 
-//查看news的内容
+//查看news的内容 ok
 router.post('/api/news/texr',function(req,res){
   const sql ='select content from news where newsID=?';
   connection.query(sql,[req.body.newsID],function(err,results){
@@ -460,7 +460,7 @@ router.post('/api/searchfour/title',function(req,res){
   });
 });
 
-//添加新资讯
+//添加新资讯 ok只能四张图片
 router.post('/api/news/create',function(req,res){
   console.log(req.body.id);
   const sql = 'insert into news values(?,?,?,?,?,?)';
@@ -474,7 +474,7 @@ router.post('/api/news/create',function(req,res){
   })
 })
 
-//查询销售情况
+//查询销售情况 ok
 router.post('/api/sales',function(req,res){
   console.log(req.body.id);
   const sql='select product.*,specification.* from product,specification where product.productID = specification.productID';
@@ -574,7 +574,7 @@ router.post('/api/searchsix/productID',function(req,res){
   });
 });
 
-//修改订单状态
+//修改订单状态 ok
 router.post('/api/order/outstatus',function(req,res){
   const sql='update orderform set orderStatus=? where orderNumber=?';
   var tmp='已发货';
@@ -588,7 +588,7 @@ router.post('/api/order/outstatus',function(req,res){
   });
 })
 
-//修改订单后，库存数量减少
+//修改订单后，库存数量减少 ok
 router.post('/api/order/outstock',function(req,res){
   const sql='update specification set stockNum=stockNum-? where productID=? and type=?';
   var tmp=req.body.amount;
@@ -602,7 +602,7 @@ router.post('/api/order/outstock',function(req,res){
   });
 });
 
-//修改订单后，销售数量增加
+//修改订单后，销售数量增加 ok
 router.post('/api/order/outsold',function(req,res){
   const sql='update specification set soldNum=soldNum+? where productID=? and type=?';
   var tmp=req.body.amount;
